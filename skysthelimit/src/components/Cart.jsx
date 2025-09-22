@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getCart, addToCart, removeOneFromCart, removeFromCart } from '../data/Cart.js';
-import planners from '../data/Planners.js';
+import planners from '../data/planners.js';
 import { useNavigate } from 'react-router-dom';
 import gifts from '../data/Combo.js';
 

@@ -1,4 +1,4 @@
-import planners from "../data/Planners.js";
+import planners from "../data/planners.js";
 import { useNavigate } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import { addToCart } from "../data/Cart.js";

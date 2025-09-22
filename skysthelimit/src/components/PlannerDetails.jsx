@@ -1,4 +1,4 @@
-import planners from "../data/Planners.js";
+import planners from "../data/planners.js";
 import gifts from "../data/Combo.js";
 import { useParams } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";

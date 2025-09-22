@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import planners from "../data/Planners";
+import planners from "../data/planners";
 import { useNavigate } from "react-router-dom";
 
 export default function MainBanner() {

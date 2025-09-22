@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import testimonials from "../data/Testimonials";
+import testimonials from "../data/testimonials";
 
 export default function Testimonials() {
   const [index, setIndex] = useState(0);
