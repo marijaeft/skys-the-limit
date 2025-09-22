@@ -1,4 +1,4 @@
-import planners from "../data/Planners.js";
+import planners from "../data/planners.js";
 import popular from "../data/MostPopular.js";
 import { FaShoppingCart } from "react-icons/fa";
 import { addToCart } from "../data/Cart.js";

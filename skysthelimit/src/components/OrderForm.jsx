@@ -42,7 +42,6 @@ export default function OrderForm() {
       );
 
       navigate('/confirmation');
-      console.log('Email sent');
     } catch (err) {
       alert('Имаше проблем во испраќањето на е-поштата. Пробајте повторно.');
     }
