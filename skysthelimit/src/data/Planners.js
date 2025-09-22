@@ -33,6 +33,7 @@ import WorkPlannerImg2 from "../assets/work-planner-2.png"
 import WorkPlannerImg3 from "../assets/work-planner-3.png"
 import WorkPlannerBanner from "../assets/work-planner-banner.png"
 
+
 const planners = [
     {
         id : 1,
