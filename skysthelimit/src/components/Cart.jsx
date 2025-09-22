@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getCart, addToCart, removeOneFromCart, removeFromCart } from '../data/Cart.js';
-import planners from '../data/planners.js';
+import planners from '../data/planners-data.js';
 import { useNavigate } from 'react-router-dom';
 import gifts from '../data/Combo.js';
 
@@ -13,6 +13,7 @@ export default function Cart() {
     window.addEventListener('cartUpdated', onCartUpdated);
     return () => window.removeEventListener('cartUpdated', onCartUpdated);
   }, []);
+  // comment for force build
 
   if (Object.keys(cart).length === 0) {
     return (
