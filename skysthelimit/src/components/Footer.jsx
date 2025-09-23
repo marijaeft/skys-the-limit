@@ -34,7 +34,7 @@ export default function Footer() {
           <ul className="text-gray-200 space-y-1">
             <li>
               <Link
-                to="/aboutUs"
+                to="/about-us"
                 className="hover:text-yellow-400 transition-colors duration-300"
               >
                 За нас

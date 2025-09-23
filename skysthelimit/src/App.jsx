@@ -46,7 +46,7 @@ function App() {
         <Route path="/order" element={<OrderForm />} />
         <Route path="/confirmation" element={<OrderConfirmation />} />
         <Route path="/gifts" element={<GiftBox />} />
-        <Route path="/aboutUs" element={<AboutUs />} />
+        <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/delivery" element={<Delivery />} />
       </Routes>
