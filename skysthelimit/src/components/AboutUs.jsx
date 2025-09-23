@@ -1,10 +1,10 @@
-import gallery1 from "../assets/gallery1.jpg";
-import gallery2 from "../assets/gallery2.jpg";
-import gallery3 from "../assets/gallery3.jpg";
-import gallery4 from "../assets/gallery4.jpg";
-import gallery5 from "../assets/gallery5.jpg";
-import gallery6 from "../assets/gallery6.jpg";
-import gallery7 from "../assets/gallery7.jpg";
+import gallery1 from "../assets/gallery1.webp";
+import gallery2 from "../assets/gallery2.webp";
+import gallery3 from "../assets/gallery3.webp";
+import gallery4 from "../assets/gallery4.webp";
+import gallery5 from "../assets/gallery5.webp";
+import gallery6 from "../assets/gallery6.webp";
+import gallery7 from "../assets/gallery7.webp";
 
 export function AboutUs() {
     const galleryImages = [gallery5, gallery3, gallery2, gallery4, gallery6, gallery7];

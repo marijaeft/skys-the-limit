@@ -3,7 +3,6 @@ import travelPlannerImg1 from "../assets/travel-planner1.webp"
 import travelPlannerImg2 from "../assets/travel-planner2.webp"
 import travelPlannerImg3 from "../assets/travel-planner3.webp"
 import travelPlannerBanner from "../assets/travel-planner-banner.webp"
-import travelPlannerVideo from "../assets/travel-planner-video.mp4"
 import weddingGoldImg from '../assets/wedding-planner-gold.webp';
 import weddingRoseGoldImg from '../assets/wedding-planner-rosegold.webp';
 import WeddingPlannerGold from "../assets/wedding-planner-gold1.webp"
@@ -66,7 +65,6 @@ const planners = [
             travelPlannerImg2,
             travelPlannerImg3
         ],
-        videos : travelPlannerVideo,
         price : "750 ден",
         sale : true,
         discountedPrice: "690 ден"
