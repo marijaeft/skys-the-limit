@@ -1,6 +1,6 @@
 import { FaFacebookF, FaInstagram, FaEnvelope } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import logo_skys from '../assets/logo_skys.png';
+import logo_skys from '../assets/logo_skys.webp';
 
 export default function Footer() {
   return (

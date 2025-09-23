@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import logo_skys from '../assets/logo_skys.png';
+import logo_skys from '../assets/logo_skys.webp';
 import { FaShoppingCart, FaBars, FaTimes } from 'react-icons/fa';
 import { getCart } from '../data/Cart.js';
 import { Link } from 'react-router-dom';
