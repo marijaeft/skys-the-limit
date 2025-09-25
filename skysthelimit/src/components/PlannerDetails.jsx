@@ -143,6 +143,7 @@ export default function PlannerDetails() {
                   id="quantity"
                   type="number"
                   min="1"
+                  max="100"
                   value={quantity}
                   onChange={(e) =>
                     setQuantity(Math.max(1, parseInt(e.target.value) || 1))

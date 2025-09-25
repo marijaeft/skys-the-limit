@@ -19,9 +19,6 @@ export default function DiscountedItems() {
 
   return (
     <>
-      <p className="text-2xl italic flex items-center justify-center pt-5 text-red-600 text-center px-4">
-        Производи на попуст
-      </p>
       <div className="flex flex-col items-center justify-center w-full py-10 px-2">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-0 gap-y-4 w-full max-w-7xl">
           {popularPlanners.map((p) => (
