@@ -233,7 +233,7 @@ const planners = [
             AcademicPlannerImg3
         ],
         price : "750 ден",
-        sale : false,
+        sale : true,
         discountedPrice: "690 ден"
     },
       {
