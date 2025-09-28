@@ -20,6 +20,7 @@ A React + Vite frontend application for **Sky’s The Limit**, a creative brand 
 
 ## Project Structure
 
+```
 skysthelimit/
 ├── public/
 ├── src/
@@ -35,7 +36,7 @@ skysthelimit/
 ├── vite.config.js
 ├── tailwind.config.js
 └── vercel.json
-
+```
 
 ##  Scripts
 
