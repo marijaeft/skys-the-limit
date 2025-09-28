@@ -3,6 +3,8 @@
 
 A React + Vite frontend application for **Sky’s The Limit**, a creative brand offering planners and thematic journals that inspire productivity, personal growth, and better mental health.
 
+**Live App:** [https://www.skysthelimit.mk/](https://www.skysthelimit.mk/)
+
 ---
 
 ##  Tech Stack
