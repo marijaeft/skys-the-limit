@@ -13,7 +13,6 @@ export default function Cart() {
     window.addEventListener('cartUpdated', onCartUpdated);
     return () => window.removeEventListener('cartUpdated', onCartUpdated);
   }, []);
-  // comment for force build
 
   if (Object.keys(cart).length === 0) {
     return (

@@ -58,7 +58,9 @@ export default function MainBanner() {
             <img
               key={planner.id}
               src={planner.bannerImg}
+              fetchPriority="high"
               alt={planner.title}
+              width={isCenter ? 260 : 220}
               onClick={() => navigate(`/product/${planner.id}`)}
               className="absolute transition-all duration-700 ease-in-out cursor-pointer hover:scale-105 "
               style={{
