@@ -18,23 +18,24 @@ A React + Vite frontend application for **Sky’s The Limit**, a creative brand 
 
 ---
 
-##  Project Structure
+## Project Structure
 
 skysthelimit/
 ├── public/
 ├── src/
-│ ├── assets/
-│ ├── components/ # Reusable UI components
-│ ├── data/ #json data for products
-│ ├── App.jsx # Main app entry with routing
-│ ├── main.jsx # ReactDOM render
-│ └── App.css # Global styles
-└── package-lock.json
+│   ├── assets/
+│   ├── components/        # Reusable UI components
+│   ├── data/              # JSON data for products
+│   ├── App.jsx            # Main app entry with routing
+│   ├── main.jsx           # ReactDOM render
+│   └── App.css            # Global styles
+├── package-lock.json
 ├── package.json
-└── postcss.config.js
-└── vite.config.js
-└── tailwind.config.js
+├── postcss.config.js
+├── vite.config.js
+├── tailwind.config.js
 └── vercel.json
+
 
 ##  Scripts
 
