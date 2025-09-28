@@ -71,6 +71,7 @@ function App() {
               </Suspense>}
           />
         </Routes>
+        <Loading/>
         <Footer />
       </div>
     </BrowserRouter>

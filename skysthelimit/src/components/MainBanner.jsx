@@ -58,7 +58,7 @@ export default function MainBanner() {
             <img
               key={planner.id}
               src={planner.bannerImg}
-              fetchpriority="high"
+              fetchPriority="high"
               alt={planner.title}
               width={isCenter ? 260 : 220}
               onClick={() => navigate(`/product/${planner.id}`)}

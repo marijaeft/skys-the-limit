@@ -5,7 +5,7 @@ import { FaGift } from "react-icons/fa";
 import { addToCart } from "../data/Cart.js";
 import { Link } from "react-router-dom";
 
-export function GiftBox() {
+export default function GiftBox() {
     const navigate = useNavigate();
 
     const handleAdd = (id, e) => {
