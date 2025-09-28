@@ -47,6 +47,10 @@ Run with **npm**:
 - `npm run vercel-build` – Build optimized for Vercel deployment  
 
 ---
+## Requirements
+
+- Node.js >= 18 (tested on v22.15.1)  
+- npm >= 9 (tested on v11.4.0)
 
 ##  Setup & Installation
 
