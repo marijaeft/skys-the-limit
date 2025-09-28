@@ -58,12 +58,12 @@ Run with **npm**:
 
 1. Clone the repository:
 
-   git clone https://github.com/marijaeft/skys-the-limit.git
-   cd skysthelimit
+   ```git clone https://github.com/marijaeft/skys-the-limit.git```
+   ```cd skysthelimit```
 
 2. Install dependencies:
     
-   npm install
+   ```npm install```
 
 ##  Deployment
 
