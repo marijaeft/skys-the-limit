@@ -71,14 +71,16 @@ function NavBar() {
         <ul className="md:hidden flex flex-col items-start pl-9 bg-white shadow-md py-2 space-y-2 font-medium text-l text-yellow-600">
           <Link to="/products"><li onClick={() => setMenuOpen(false)} className="hover:font-bold">Планери</li></Link>
           <Link to="/sale"><li onClick={() => setMenuOpen(false)} className="hover:font-bold">Попусти</li></Link>
-          <Link to="/gifts"><li onClick={() => setMenuOpen(false)} className="hover:font-bold">Подароци</li></Link>
+          <Link to="/gifts"><li onClick={() => setMenuOpen(false)} className="hover:font-bold">Комбо</li></Link>
         </ul>
       )}
 
       {showNotification && (
-        <div className="fixed bottom-6 right-6 bg-green-600 text-gray-100 px-4 py-2 rounded-lg shadow-lg animate-bounce">
-          Успешно додаден производ во кошничка.
-        </div>
+        <Link to="/cart">
+          <div className="fixed bottom-6 right-6 bg-green-600 text-gray-100 px-4 py-2 rounded-lg shadow-lg animate-bounce">
+            Успешно додаден производ во кошничка.
+          </div>
+        </Link>
       )}
     </nav>
   );
