@@ -19,8 +19,8 @@ export default function DiscountedItems() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center w-full py-10 px-2">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-0 gap-y-4 w-full max-w-7xl">
+      <div className="flex flex-col items-center justify-center w-full py-10 px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-7xl mt-10">
           {popularPlanners.map((p) => (
             <div
               key={p.id}
