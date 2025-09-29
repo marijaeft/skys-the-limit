@@ -66,7 +66,7 @@ const planners = [
             travelPlannerImg3
         ],
         price : "750 ден",
-        sale : true,
+        sale : false,
         discountedPrice: "690 ден"
 
     },
@@ -119,7 +119,7 @@ const planners = [
             WeddingPlannerImg2
         ],
         price : "750 ден",
-        sale : true,
+        sale : false,
         discountedPrice: "690 ден"
     },
 
@@ -171,7 +171,7 @@ const planners = [
             WeddingPlannerImg2
         ],
         price : "750 ден",
-        sale : true,
+        sale : false,
         discountedPrice: "690 ден"
     },
       {
@@ -233,7 +233,7 @@ const planners = [
             AcademicPlannerImg3
         ],
         price : "750 ден",
-        sale : true,
+        sale : false,
         discountedPrice: "690 ден"
     },
       {
