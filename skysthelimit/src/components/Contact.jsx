@@ -1,4 +1,4 @@
-export function Contact() {
+export default function Contact() {
     return (
         <div className="relative bg-gray-50 min-h-screen py-16 px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto text-center">

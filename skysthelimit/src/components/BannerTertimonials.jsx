@@ -1,7 +1,7 @@
 import MainBanner from "./MainBanner";
 import Testimonials from "./Testimonials";
 
-export function BannerTestimonials() {
+export default function BannerTestimonials() {
     return (
         <div className="banner-testimonials relative bg-slate-800 overflow-hidden">
 

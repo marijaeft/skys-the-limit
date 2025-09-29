@@ -6,7 +6,7 @@ import gallery5 from "../assets/gallery5.webp";
 import gallery6 from "../assets/gallery6.webp";
 import gallery7 from "../assets/gallery7.webp";
 
-export function AboutUs() {
+export default function AboutUs() {
     const galleryImages = [gallery5, gallery3, gallery2, gallery4, gallery6, gallery7];
 
     return (

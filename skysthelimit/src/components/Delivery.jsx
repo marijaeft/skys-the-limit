@@ -1,4 +1,4 @@
-export function Delivery() {
+export default function Delivery() {
     return (
         <div className="relative bg-gray-50 min-h-screen py-16 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
