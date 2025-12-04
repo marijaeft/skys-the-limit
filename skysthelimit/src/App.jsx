@@ -6,6 +6,7 @@ import NavBar from './components/NavBar.jsx';
 import MainBanner from './components/MainBanner.jsx';
 import Testimonials from './components/Testimonials.jsx';
 import MostPopular from './components/MostPopular.jsx';
+import NewCollection from './components/NewCollection.jsx';
 import LastChance from './components/LastChance.jsx';
 import GiftIdeas from './components/GiftIdeas.jsx';
 import Footer from './components/Footer.jsx';
@@ -37,7 +38,7 @@ function App() {
             element={
               <>
                 <BannerTestimonials />
-                <MostPopular />
+                <NewCollection />
                 <LastChance />
                 <GiftIdeas />
               </>

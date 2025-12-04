@@ -32,7 +32,7 @@ export default function MainBanner() {
               flex justify-center items-end`}
       >
 
-        {planners.map((planner, i) => {
+        {planners.slice().reverse().map((planner, i) => {
           let offset = i - currentIndex;
 
           if (offset < -Math.floor(planners.length / 2)) {

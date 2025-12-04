@@ -20,17 +20,22 @@ export default function Planners() {
     <div className="flex flex-col items-center justify-center w-full py-10 px-4">
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-7xl mt-10">
-        {planners.map((planner) => (
+        {planners.slice().reverse().map((planner) => (
           <div
             key={planner.id}
             onClick={(e) => handleProductClick(planner.id, e)}
             className="flex flex-col items-center text-center bg-white shadow-md p-4 rounded-xl w-full max-w-xs hover:shadow-2xl mx-auto cursor-pointer transition duration-300"
           >
-            <img
-              src={planner.images[0]}
-              alt={planner.title}
-              className="w-full h-auto mb-4 rounded-xl object-contain drop-shadow-md"
-            />
+
+            <div className="w-full aspect-square mb-4 overflow-hidden rounded-xl shadow">
+              <img
+                src={planner.images[0]}
+                alt={planner.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+
             <p className="mb-2 font-light text-neutral-900 tracking-tight text-lg">
               {planner.title}
             </p>
@@ -45,6 +50,7 @@ export default function Planners() {
                   Во кошничка
                 </p>
               </div>
+
               <div className="flex gap-2 items-center">
                 {planner.sale && planner.discountedPrice ? (
                   <>
@@ -63,6 +69,7 @@ export default function Planners() {
               </div>
             </div>
           </div>
+
         ))}
       </div>
     </div>
