@@ -322,7 +322,7 @@ const planners = [
     },
     {
         id: 8,
-        title: "Sky’s The Limit 2026",
+        title: "Sky’s The Limit 2026 - Celeste",
         subtitle: "Недатумиран дневник за планирање и организирање.",
         characteristics: [
             "A5 формат",
@@ -376,7 +376,7 @@ const planners = [
     },
     {
         id: 9,
-        title: "Sky’s The Limit 2026",
+        title: "Sky’s The Limit 2026 - Aura",
         subtitle: "Недатумиран дневник за планирање и организирање.",
         characteristics: [
             "A5 формат",
