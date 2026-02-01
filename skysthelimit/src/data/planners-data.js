@@ -306,7 +306,7 @@ const planners = [
             "План за патување (x2)",
             "Brain dump (x4)",
             "Секојдневно следење на чувства (Mood Tracker)",
-            "Сстикери на крајот од дневникот"
+            "Стикери на крајот од дневникот"
         ],
         bannerImg: HogwPlannerBanner,
         cardImage: HogwPlanner,
@@ -317,8 +317,8 @@ const planners = [
                 HogwPlannerImg3
             ],
         price: "1200 ден",
-        sale: false,
-        discountedPrice: "1080 ден"
+        sale: true,
+        discountedPrice: "1030 ден"
     },
     {
         id: 8,
@@ -371,8 +371,8 @@ const planners = [
                 SkysPlannerImg3
             ],
         price: "1100 ден",
-        sale: false,
-        discountedPrice: "980 ден"
+        sale: true,
+        discountedPrice: "945 ден"
     },
     {
         id: 9,
@@ -425,8 +425,8 @@ const planners = [
                 SkysPlannerImg3
             ],
         price: "1100 ден",
-        sale: false,
-        discountedPrice: "980 ден"
+        sale: true,
+        discountedPrice: "945 ден"
     },
     {
         id: 10,
@@ -453,8 +453,8 @@ const planners = [
                 WorkPlannerImg3
             ],
         price: "950 ден",
-        sale: false,
-        discountedPrice: "855 ден"
+        sale: true,
+        discountedPrice: "815 ден"
     },
 ]
 export default planners

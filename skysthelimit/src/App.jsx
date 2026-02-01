@@ -17,6 +17,7 @@ import PlannerDetails from './components/PlannerDetails.jsx';
 import DiscountedItems from './components/DiscountedItems.jsx';
 import Planners from './components/Planners.jsx';
 import BannerTestimonials from './components/BannerTertimonials.jsx';
+import BannerTestimonialsValentines from './components/BannerTestimonialsValentines.jsx';
 import GiftBox from './components/GiftBox.jsx';
 import ScrollToTop from './components/ScrollToTop.jsx';
 import Loading from './components/Loading.jsx';
@@ -37,9 +38,9 @@ function App() {
             path="/"
             element={
               <>
-                <BannerTestimonials />
+                <BannerTestimonialsValentines />
                 <NewCollection />
-                <LastChance />
+                <div className='bg-pink-100'> <MostPopular /></div>
                 <GiftIdeas />
               </>
             }

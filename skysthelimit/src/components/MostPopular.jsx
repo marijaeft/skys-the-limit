@@ -22,7 +22,7 @@ export default function MostPopular() {
 
   return (
     <>
-      <p className="text-2xl italic flex items-center justify-center pt-5 text-center px-4">
+      <p className="text-2xl italic flex items-center justify-center pt-5 text-center px-4 text-amber-950">
         Најпопуларни производи
       </p>
       <div className="flex flex-col items-center justify-center w-full py-10 px-4">

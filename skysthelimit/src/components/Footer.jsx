@@ -4,7 +4,7 @@ import logo_skys from '../assets/logo_skys.webp';
 
 export default function Footer() {
   return (
-    <footer className="relative w-full bg-slate-800 overflow-hidden py-12 mt-auto">
+    <footer className="relative w-full bg-red-950 overflow-hidden py-12 mt-auto">
 
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         <div className="absolute top-[-50%] left-[-50%] w-[200%] h-[200%] bg-radial-atl blur-[120px] opacity-20 animate-smoke1"></div>
