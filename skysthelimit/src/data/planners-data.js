@@ -79,7 +79,7 @@ const planners = [
                 travelPlannerImg3
             ],
         price: "750 ден",
-        sale: false,
+        sale: true,
         discountedPrice: "690 ден"
 
     },
@@ -132,7 +132,7 @@ const planners = [
                 WeddingPlannerImg2
             ],
         price: "750 ден",
-        sale: false,
+        sale: true,
         discountedPrice: "690 ден"
     },
 
@@ -184,7 +184,7 @@ const planners = [
                 WeddingPlannerImg2
             ],
         price: "750 ден",
-        sale: false,
+        sale: true,
         discountedPrice: "690 ден"
     },
     {
@@ -272,7 +272,7 @@ const planners = [
             ],
         price: "1150 ден",
         sale: true,
-        discountedPrice: "990 ден"
+        discountedPrice: "950 ден"
 
     },
     {
@@ -318,7 +318,7 @@ const planners = [
             ],
         price: "1200 ден",
         sale: true,
-        discountedPrice: "1030 ден"
+        discountedPrice: "870 ден"
     },
     {
         id: 8,
@@ -372,7 +372,7 @@ const planners = [
             ],
         price: "1100 ден",
         sale: true,
-        discountedPrice: "945 ден"
+        discountedPrice: "780 ден"
     },
     {
         id: 9,
@@ -426,7 +426,7 @@ const planners = [
             ],
         price: "1100 ден",
         sale: true,
-        discountedPrice: "945 ден"
+        discountedPrice: "780 ден"
     },
     {
         id: 10,
@@ -454,7 +454,7 @@ const planners = [
             ],
         price: "950 ден",
         sale: true,
-        discountedPrice: "815 ден"
+        discountedPrice: "690 ден"
     },
 ]
 export default planners

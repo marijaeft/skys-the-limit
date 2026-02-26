@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getCart, addToCart, removeOneFromCart, removeFromCart } from '../data/Cart.js';
 import planners from '../data/planners-data.js';
+import cards from '../data/cards-data.js';
 import { useNavigate } from 'react-router-dom';
 import gifts from '../data/Combo.js';
 
@@ -51,12 +52,14 @@ export default function Cart() {
     );
   }
 
-  const allProducts = [...planners, ...gifts];
+  const allProducts = [...planners, ...gifts, ...cards];
 
   const cartItems = allProducts
     .filter(p => cart[p.id])
     .map(p => {
-      const price = p.sale ? parseFloat(p.discountedPrice.replace(/\D/g, "")) : parseFloat(p.price.replace(/\D/g, ""));
+      const price = p.sale
+        ? parseFloat(p.discountedPrice.replace(/\D/g, ""))
+        : parseFloat(p.price.replace(/\D/g, ""));
       return {
         ...p,
         quantity: cart[p.id],
@@ -73,13 +76,13 @@ export default function Cart() {
     <div className="max-w-4xl mx-auto px-4 py-8 mt-16">
       <h2 className="text-2xl font-bold mb-6 text-gray-700 italic">Вашата кошничка</h2>
 
-      {cartItems.map((item, index) => (
+      {cartItems.map((item) => (
         <div
           key={item.id}
           className="bg-white rounded-xl shadow-md p-4 mb-4 flex flex-col sm:flex-row gap-4 items-center"
         >
           <img
-            src={item.cardImage}
+            src={item.cardImage || item.images?.[0]}
             alt={item.title}
             className="w-24 h-24 object-cover rounded-md"
           />
@@ -90,11 +93,17 @@ export default function Cart() {
 
             {item.sale ? (
               <p className="mt-1 text-gray-600">
-                <span className="line-through text-gray-400 mr-2">{parseFloat(item.price).toFixed(2)} ден</span>
-                <span className="text-red-500 font-semibold">{item.displayPrice.toFixed(2)} ден</span>
+                <span className="line-through text-gray-400 mr-2">
+                  {parseFloat(item.price.replace(/\D/g, "")).toFixed(2)} ден
+                </span>
+                <span className="text-red-500 font-semibold">
+                  {item.displayPrice.toFixed(2)} ден
+                </span>
               </p>
             ) : (
-              <p className="mt-1 text-gray-600">{item.displayPrice.toFixed(2)} ден</p>
+              <p className="mt-1 text-gray-600">
+                {item.displayPrice.toFixed(2)} ден
+              </p>
             )}
           </div>
 

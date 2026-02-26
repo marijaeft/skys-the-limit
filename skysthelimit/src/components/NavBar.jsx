@@ -45,9 +45,10 @@ function NavBar() {
         </Link>
 
         <ul className="hidden md:flex md:space-x-16 font-medium text-xl text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600">
-            <li><Link to="/products" className="hover:font-bold">Планери</Link></li>
-            <li><Link to="/sale" className="hover:font-bold">Попусти</Link></li>
-            <li><Link to="/gifts" className="hover:font-bold">Комбо</Link></li>
+          <li><Link to="/products" className="hover:font-bold">Планери</Link></li>
+          <li><Link to="/cards" className="hover:font-bold">Честитки</Link></li>
+          <li><Link to="/sale" className="hover:font-bold">Попусти</Link></li>
+          <li><Link to="/gifts" className="hover:font-bold">Комбо</Link></li>
         </ul>
 
         <div className="flex items-center space-x-4 text-yellow-300">
@@ -70,6 +71,7 @@ function NavBar() {
       {menuOpen && (
         <ul className="md:hidden flex flex-col items-start pl-9 bg-white shadow-md py-2 space-y-2 font-medium text-l text-yellow-600">
           <li><Link to="/products" onClick={() => setMenuOpen(false)} className="hover:font-bold">Планери</Link></li>
+          <li><Link to="/cards" onClick={() => setMenuOpen(false)} className="hover:font-bold">Честитки</Link></li>
           <li><Link to="/sale" onClick={() => setMenuOpen(false)} className="hover:font-bold">Попусти</Link></li>
           <li><Link to="/gifts" onClick={() => setMenuOpen(false)} className="hover:font-bold">Комбо</Link></li>
         </ul>

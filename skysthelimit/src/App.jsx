@@ -21,11 +21,12 @@ import BannerTestimonialsValentines from './components/BannerTestimonialsValenti
 import GiftBox from './components/GiftBox.jsx';
 import ScrollToTop from './components/ScrollToTop.jsx';
 import Loading from './components/Loading.jsx';
+import Cards from './components/Cards.jsx';
+import CardDetails from './components/CardDetails.jsx';
 
 const AboutUs = lazy(() => import('./components/AboutUs.jsx'));
 const Contact = lazy(() => import('./components/Contact.jsx'));
 const Delivery = lazy(() => import('./components/Delivery.jsx'));
-
 
 function App() {
   return (
@@ -38,7 +39,7 @@ function App() {
             path="/"
             element={
               <>
-                <BannerTestimonialsValentines />
+                <BannerTestimonials />
                 <NewCollection />
                 <div className='bg-pink-100'> <MostPopular /></div>
                 <GiftIdeas />
@@ -47,6 +48,8 @@ function App() {
           />
           <Route path="/products" element={<Planners />} />
           <Route path="/product/:id" element={<PlannerDetails />} />
+          <Route path="/cards" element={<Cards />} />
+          <Route path="/card/:id" element={<CardDetails />} />
           <Route path="/sale" element={<DiscountedItems />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<OrderForm />} />
