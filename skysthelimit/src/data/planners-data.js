@@ -132,7 +132,7 @@ const planners = [
                 WeddingPlannerImg2
             ],
         price: "850 ден",
-        sale: false,
+        sale: true,
         discountedPrice: "760 ден"
     },
 
@@ -184,7 +184,7 @@ const planners = [
                 WeddingPlannerImg2
             ],
         price: "850 ден",
-        sale: false,
+        sale: true,
         discountedPrice: "760 ден"
     },
     {
