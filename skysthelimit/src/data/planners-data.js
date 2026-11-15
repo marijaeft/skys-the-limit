@@ -48,7 +48,9 @@ import SkysPlannerImg3 from "../assets/skys-3.webp"
 
 // Колекција 2027
 import MerlotPlanner from "../assets/merlot-2027.webp"
+import MerlotLifestyle from "../assets/merlot-2027-lifestyle.webp"
 import DuskPlanner from "../assets/dusk-2027.webp"
+import DuskLifestyle from "../assets/dusk-2027-lifestyle.webp"
 import CinnamonJournal from "../assets/cinnamon-2027.webp"
 import CinnamonLifestyle from "../assets/cinnamon-2027-lifestyle.webp"
 // Внатрешни страни на Sky's The Limit 2027 (Merlot и Dusk)
@@ -519,6 +521,7 @@ const planners = [
         images:
             [
                 MerlotPlanner,
+                MerlotLifestyle,
                 Skys2027Page2,
                 Skys2027Page3,
                 Skys2027Page4,
@@ -540,6 +543,7 @@ const planners = [
         images:
             [
                 DuskPlanner,
+                DuskLifestyle,
                 Skys2027Page2,
                 Skys2027Page3,
                 Skys2027Page4,
