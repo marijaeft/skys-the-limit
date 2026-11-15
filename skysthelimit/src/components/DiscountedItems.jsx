@@ -1,67 +1,21 @@
+import Reveal from "./Reveal.jsx";
 import planners from "../data/planners-data.js";
-import { FaShoppingCart } from "react-icons/fa";
-import { addToCart } from '../data/Cart.js';
-import { useNavigate } from "react-router-dom";
+import ProductCard from "./ProductCard.jsx";
 
 export default function DiscountedItems() {
-  const navigate = useNavigate();
-  const popularPlanners = planners.filter((planner) =>
-    planner.sale == true
-  );
-
-  const handleAdd = (id) => {
-    addToCart(id);
-  };
-  const handleProductClick = (e, id) => {
-    e.stopPropagation()
-    navigate(`/product/${id}`)
-  }
+  const discounted = planners.filter((planner) => planner.sale === true);
 
   return (
-    <>
-      <div className="flex flex-col items-center justify-center w-full py-10 px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-7xl mt-10">
-          {popularPlanners.map((p) => (
-            <div
-              key={p.id}
-              onClick={(e) => handleProductClick(e, p.id)}
-              className="flex flex-col items-center text-center bg-white shadow-md p-4 rounded-xl w-full max-w-xs hover:shadow-2xl mx-auto"
-            >
-              <img
-                src={p.cardImage}
-                alt={p.title}
-                className="w-full h-auto mb-4 rounded"
-              />
-              <p className="mb-2 font-light text-neutral-900 tracking-tight text-lg">{p.title}</p>
-
-              <div className="flex flex-col gap-1 items-center w-full">
-                <div
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleAdd(p.id);
-                  }}
-                  className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition"
-                >
-                  <FaShoppingCart className="text-yellow-300" size={20} />
-                  <p className="uppercase text-sm font-semibold text-yellow-500 border border-yellow-300 rounded-full px-2 py-1">
-                    Во кошничка
-                  </p>
-                </div>
-                <div className="flex gap-2 items-center">
-                  {p.discountedPrice && (
-                    <span className="line-through text-sm text-gray-500">
-                      {p.price}
-                    </span>
-                  )}
-                  <span className="text-lg font-bold text-red-500">
-                    {p.discountedPrice}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+    <section className="w-full max-w-7xl mx-auto px-4 pt-28 sm:pt-32 pb-20">
+      <Reveal className="text-center mb-12">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-rose-600">Попусти</p>
+        <h1 className="font-serif text-4xl sm:text-5xl text-stone-900 mt-3">Производи на акција</h1>
+      </Reveal>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {discounted.map((p, i) => (
+          <ProductCard delay={(i % 4) * 90} key={p.id} product={p} badge={p.collection === 2027 ? "Ново 2027" : undefined} />
+        ))}
       </div>
-    </>
+    </section>
   );
 }

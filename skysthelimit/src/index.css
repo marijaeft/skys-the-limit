@@ -42,3 +42,65 @@ html, body {
 }
 
 
+
+body {
+  @apply antialiased text-stone-800;
+}
+
+/* ---------- motion ---------- */
+html {
+  scroll-behavior: smooth;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.reveal-in {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes page-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.page-in {
+  animation: page-in 0.45s ease-out;
+}
+
+@keyframes sheet-in {
+  from { transform: translateY(28px) scale(0.985); }
+  to { transform: none; }
+}
+@keyframes backdrop-in {
+  from { background-color: rgb(0 0 0 / 0); }
+  to { background-color: rgb(0 0 0 / 0.5); }
+}
+.sheet-in {
+  animation: sheet-in 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.backdrop-in {
+  animation: backdrop-in 0.3s ease-out;
+}
+
+@keyframes bump {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+.bump {
+  animation: bump 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

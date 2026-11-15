@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import logo_skys from '../assets/logo_skys.webp';
-import { FaShoppingCart, FaBars, FaTimes } from 'react-icons/fa';
+import { FiShoppingBag, FiMenu, FiX, FiCheckCircle } from 'react-icons/fi';
 import { getCart } from '../data/Cart.js';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+
+const links = [
+  { to: '/products', label: 'Планери' },
+  { to: '/cards', label: 'Честитки' },
+  { to: '/sale', label: 'Попусти' },
+  { to: '/gifts', label: 'Комбо' },
+];
 
 function NavBar() {
   const [cartCount, setCartCount] = useState(0);
@@ -32,7 +39,7 @@ function NavBar() {
   }, [cartCount]);
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-white shadow">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-white border-b border-stone-200/70">
       <div className="flex justify-between items-center px-6 md:px-16 py-2">
         <Link to="/">
           <div>
@@ -44,43 +51,61 @@ function NavBar() {
           </div>
         </Link>
 
-        <ul className="hidden md:flex md:space-x-16 font-medium text-xl text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600">
-          <li><Link to="/products" className="hover:font-bold">Планери</Link></li>
-          <li><Link to="/cards" className="hover:font-bold">Честитки</Link></li>
-          <li><Link to="/sale" className="hover:font-bold">Попусти</Link></li>
-          <li><Link to="/gifts" className="hover:font-bold">Комбо</Link></li>
+        <ul className="hidden md:flex md:gap-10 text-[15px] font-medium tracking-wide">
+          {links.map((l) => (
+            <li key={l.to}>
+              <NavLink
+                to={l.to}
+                className={({ isActive }) =>
+                  `relative py-1 transition-colors after:absolute after:left-0 after:-bottom-0.5 after:h-px after:bg-amber-600 after:transition-all after:duration-300 ${
+                    isActive ? 'text-navy-950 after:w-full' : 'text-stone-600 hover:text-navy-950 after:w-0 hover:after:w-full'
+                  }`
+                }
+              >
+                {l.label}
+              </NavLink>
+            </li>
+          ))}
         </ul>
 
-        <div className="flex items-center space-x-4 text-yellow-300">
-          <Link to="/cart">
-            <div className="relative">
-              <FaShoppingCart size={24} />
-              {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 text-yellow-900 text-xs font-bold rounded-full">
-                  {cartCount}
-                </span>
-              )}
-            </div>
+        <div className="flex items-center gap-2 text-navy-950">
+          <Link to="/cart" aria-label="Кошничка" className="relative p-2 rounded-full hover:bg-stone-100 transition">
+            <FiShoppingBag size={24} />
+            {cartCount > 0 && (
+              <span key={cartCount} className="bump absolute -top-0.5 -right-0.5 min-w-[20px] h-5 px-1 flex items-center justify-center rounded-full bg-rose-500 text-white text-[11px] font-bold">
+                {cartCount}
+              </span>
+            )}
           </Link>
-          <div className="md:hidden text-2xl" onClick={() => setMenuOpen(!menuOpen)}>
-            {menuOpen ? <FaTimes /> : <FaBars />}
-          </div>
+          <button
+            type="button"
+            className="md:hidden p-2 rounded-full hover:bg-stone-100 text-2xl"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Мени"
+          >
+            {menuOpen ? <FiX /> : <FiMenu />}
+          </button>
         </div>
       </div>
 
       {menuOpen && (
-        <ul className="md:hidden flex flex-col items-start pl-9 bg-white shadow-md py-2 space-y-2 font-medium text-l text-yellow-600">
-          <li><Link to="/products" onClick={() => setMenuOpen(false)} className="hover:font-bold">Планери</Link></li>
-          <li><Link to="/cards" onClick={() => setMenuOpen(false)} className="hover:font-bold">Честитки</Link></li>
-          <li><Link to="/sale" onClick={() => setMenuOpen(false)} className="hover:font-bold">Попусти</Link></li>
-          <li><Link to="/gifts" onClick={() => setMenuOpen(false)} className="hover:font-bold">Комбо</Link></li>
+        <ul className="md:hidden flex flex-col px-6 pb-4 pt-1 border-t border-stone-200/70 bg-white font-medium text-stone-700">
+          {links.map((l) => (
+            <li key={l.to}>
+              <Link to={l.to} onClick={() => setMenuOpen(false)} className="block py-3 border-b border-stone-100 hover:text-navy-950">
+                {l.label}
+              </Link>
+            </li>
+          ))}
         </ul>
       )}
 
       {showNotification && (
         <Link to="/cart">
-          <div className="fixed bottom-6 right-6 bg-green-600 text-gray-100 px-4 py-2 rounded-lg shadow-lg animate-bounce">
-            Успешно додаден производ во кошничка.
+          <div className="fixed bottom-6 right-6 left-6 sm:left-auto flex items-center gap-3 bg-stone-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl animate-toast-in">
+            <FiCheckCircle className="text-emerald-400 flex-shrink-0" size={20} />
+            <span className="text-sm">Производот е додаден во кошничка.</span>
+            <span className="text-sm font-semibold text-amber-300 ml-auto pl-2">Види →</span>
           </div>
         </Link>
       )}

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import planners from "../data/planners-data";
+import allPlanners from "../data/planners-data";
+
+const planners = allPlanners.filter((p) => !p.hideInBanner);
 import { useNavigate } from "react-router-dom";
 
 export default function MainBanner() {
@@ -14,10 +16,17 @@ export default function MainBanner() {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % planners.length);
-    }, 3000);
-    return () => clearInterval(interval);
+    const next = () => setCurrentIndex((prev) => (prev + 1) % planners.length);
+    let interval;
+    // first rotation 1s after load, then every 3s
+    const start = setTimeout(() => {
+      next();
+      interval = setInterval(next, 3000);
+    }, 1000);
+    return () => {
+      clearTimeout(start);
+      clearInterval(interval);
+    };
   }, []);
 
   const isMobile = windowWidth < 640;

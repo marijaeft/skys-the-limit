@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { addToCart } from "../data/Cart.js";
 import { FiShoppingCart } from "react-icons/fi";
 import { GiButterfly } from "react-icons/gi";
+import Recommendations from "./Recommendations.jsx";
 
 export default function CardDetails() {
     const { id } = useParams();
@@ -12,6 +13,20 @@ export default function CardDetails() {
     const [quantity, setQuantity] = useState(1);
     const [openImage, setOpenImage] = useState(null);
     const imgRef = useRef(null);
+
+    useEffect(() => {
+        setQuantity(1);
+        setOpenImage(null);
+    }, [id]);
+
+    useEffect(() => {
+        const handleKey = (e) => {
+            if (!openImage) return;
+            if (e.key === "Escape") setOpenImage(null);
+        };
+        window.addEventListener("keydown", handleKey);
+        return () => window.removeEventListener("keydown", handleKey);
+    }, [openImage]);
 
     if (!card) {
         return (
@@ -35,15 +50,6 @@ export default function CardDetails() {
             addToCart(card.id);
         }
     };
-
-    useEffect(() => {
-        const handleKey = (e) => {
-            if (!openImage) return;
-            if (e.key === "Escape") setOpenImage(null);
-        };
-        window.addEventListener("keydown", handleKey);
-        return () => window.removeEventListener("keydown", handleKey);
-    }, [openImage]);
 
     return (
         <div className="max-w-7xl mx-auto px-6 py-16 font-sans">
@@ -122,6 +128,8 @@ export default function CardDetails() {
                     </div>
                 </div>
             </div>
+
+            <Recommendations excludeId={card.id} />
 
             {openImage && (
                 <div

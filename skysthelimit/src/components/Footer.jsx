@@ -4,12 +4,7 @@ import logo_skys from '../assets/logo_skys.webp';
 
 export default function Footer() {
   return (
-    <footer className="relative w-full bg-pink-950 overflow-hidden py-12 mt-auto">
-
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        <div className="absolute top-[-50%] left-[-50%] w-[200%] h-[200%] bg-radial-atl blur-[120px] opacity-20 animate-smoke1"></div>
-        <div className="absolute top-[-60%] left-[-60%] w-[220%] h-[220%] bg-radial-atl blur-[150px] opacity-15 animate-smoke2"></div>
-      </div>
+    <footer className="relative w-full bg-[#07142b] overflow-hidden py-12 mt-auto">
 
       <div className="relative max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-8 items-start">
 
@@ -35,7 +30,7 @@ export default function Footer() {
             <li>
               <Link
                 to="/about-us"
-                className="hover:text-yellow-400 transition-colors duration-300"
+                className="hover:text-amber-300 transition-colors duration-300"
               >
                 За нас
               </Link>
@@ -43,7 +38,7 @@ export default function Footer() {
             <li>
               <Link
                 to="/contact"
-                className="hover:text-yellow-400 transition-colors duration-300"
+                className="hover:text-amber-300 transition-colors duration-300"
               >
                 Контакт
               </Link>
@@ -51,7 +46,7 @@ export default function Footer() {
             <li>
               <Link
                 to="/delivery"
-                className="hover:text-yellow-400 transition-colors duration-300"
+                className="hover:text-amber-300 transition-colors duration-300"
               >
                 Испорака, Враќање, Замена
               </Link>
@@ -79,7 +74,7 @@ export default function Footer() {
               aria-label={item.label}
               target={item.label !== "Email" ? "_blank" : "_self"}
               rel={item.label !== "Email" ? "noopener noreferrer" : ""}
-              className="p-3 rounded-full bg-gray-200 hover:bg-gray-400 text-stone-900 hover:text-yellow-50 transition-all duration-300 shadow-sm hover:shadow-lg"
+              className="p-3 rounded-full bg-white/10 ring-1 ring-white/15 text-amber-200 hover:bg-amber-300 hover:text-[#07142b] transition-all duration-300"
             >
               {item.icon}
             </a>
@@ -87,7 +82,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="relative mt-10 border-t border-gray-400/30 pt-4 text-center text-sm text-gray-200 font-light">
+      <div className="relative mt-10 border-t border-white/10 pt-4 text-center text-sm text-gray-200 font-light">
         © {new Date().getFullYear()} Sky’s the Limit. Сите права се задржани.
       </div>
     </footer>

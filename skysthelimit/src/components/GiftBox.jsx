@@ -1,73 +1,22 @@
+import Reveal from "./Reveal.jsx";
 import gifts from "../data/Combo.js";
-import { useNavigate } from "react-router-dom";
-import { FaShoppingCart } from "react-icons/fa";
 import { FaGift } from "react-icons/fa";
-import { addToCart } from "../data/Cart.js";
 import { Link } from "react-router-dom";
+import ProductCard from "./ProductCard.jsx";
 
 export default function GiftBox() {
-    const navigate = useNavigate();
-
-    const handleAdd = (id, e) => {
-        e.stopPropagation();
-        addToCart(id);
-    };
-
-    const handleProductClick = (id, e) => {
-        e.stopPropagation();
-        navigate(`/product/${id}`);
-    };
-
     return (
         <div className="flex flex-col items-center justify-center w-full py-10 px-4 mt-4">
 
 
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-7xl mt-6">
-                {gifts.map((gift) => (
-                    <div
-                        key={gift.id}
-                        onClick={(e) => handleProductClick(gift.id, e)}
-                        className="flex flex-col items-center text-center bg-white shadow-md p-4 rounded-xl w-full max-w-xs hover:shadow-2xl mx-auto cursor-pointer transition duration-300"
-                    >
-                        <img
-                            src={gift.images[0]}
-                            alt={gift.title}
-                            className="w-full h-auto mb-4 rounded-xl object-contain drop-shadow-md"
-                        />
-                        <p className="mb-2 font-light text-neutral-900 tracking-tight text-lg">
-                            {gift.title}
-                        </p>
-
-                        <div className="flex flex-col gap-2 items-center w-full">
-                            <div
-                                onClick={(e) => handleAdd(gift.id, e)}
-                                className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition"
-                            >
-                                <FaShoppingCart className="text-yellow-300" size={20} />
-                                <p className="uppercase text-sm font-semibold text-yellow-500 border border-yellow-300 rounded-full px-3 py-1">
-                                    Во кошничка
-                                </p>
-                            </div>
-
-                            <div className="flex gap-2 items-center">
-                                {gift.sale && gift.discountedPrice ? (
-                                    <>
-                                        <span className="line-through text-sm text-gray-500">
-                                            {gift.price}
-                                        </span>
-                                        <span className="text-lg font-bold text-red-500">
-                                            {gift.discountedPrice}
-                                        </span>
-                                    </>
-                                ) : (
-                                    <span className="text-lg font-bold text-yellow-900">
-                                        {gift.price}
-                                    </span>
-                                )}
-                            </div>
-                        </div>
-                    </div>
+            <Reveal className="text-center mb-12 mt-16">
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-amber-700">Комбо пакети</p>
+                <h1 className="font-serif text-4xl sm:text-5xl text-stone-900 mt-3">Подари нешто значајно</h1>
+            </Reveal>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-7xl">
+                {gifts.map((gift, i) => (
+                    <ProductCard delay={(i % 4) * 90} key={gift.id} product={gift} image={gift.images[0]} />
                 ))}
             </div>
             <div className="relative w-full max-w-2xl mx-auto bg-white shadow-xl rounded-2xl p-6 sm:p-8 mb-8 mt-12 text-center">

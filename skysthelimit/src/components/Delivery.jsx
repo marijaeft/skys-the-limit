@@ -1,3 +1,4 @@
+import { DELIVERY_COST } from '../data/delivery.js';
 export default function Delivery() {
     return (
         <div className="relative bg-gray-50 min-h-screen py-16 px-4 sm:px-6 lg:px-8">
@@ -13,7 +14,7 @@ export default function Delivery() {
                     <div className="relative space-y-4 text-gray-800 text-base sm:text-lg leading-relaxed">
                         <h2 className="text-2xl font-semibold text-yellow-600">Испорака</h2>
                         <p>
-                            Доставата изнесува <span className="font-semibold">150 денари</span> за секоја нарачка.
+                            Доставата изнесува <span className="font-semibold">{DELIVERY_COST} денари</span> за секоја нарачка.
                         </p>
                         <p>
                             Доколку нарачката е направена по <span className="font-semibold">16:00 часот</span>, таа ќе биде

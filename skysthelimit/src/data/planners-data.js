@@ -46,6 +46,59 @@ import SkysHarmonyPlannerImg1 from "../assets/skys-harmony-1.webp"
 import SkysPlannerImg2 from "../assets/skys-2.webp"
 import SkysPlannerImg3 from "../assets/skys-3.webp"
 
+// Колекција 2027
+import MerlotPlanner from "../assets/merlot-2027.webp"
+import DuskPlanner from "../assets/dusk-2027.webp"
+import CinnamonJournal from "../assets/cinnamon-2027.webp"
+import CinnamonLifestyle from "../assets/cinnamon-2027-lifestyle.webp"
+// Внатрешни страни на Sky's The Limit 2027 (Merlot и Dusk)
+import Skys2027Page1 from "../assets/skys-2027-page1.webp"
+import Skys2027Page2 from "../assets/skys-2027-page2.webp"
+import Skys2027Page3 from "../assets/skys-2027-page3.webp"
+import Skys2027Page4 from "../assets/skys-2027-page4.webp"
+
+// Содржина на Sky's The Limit 2027 (иста како 2026, без листа на контакти, со календар за 2027 и 2028)
+const skys2027Content = [
+    "Календар за 2027 и 2028 година",
+    "Поставување на долгорочни цели",
+    "Запишување на лозинки",
+    "Листа на прочитани книги, шопинг листа за книги и место за запишување омилени цитати",
+    "Дневник на моето здравје",
+    "Годишен предизвик: ‘Заштеди секој ден од годината одредена сума на пари’",
+    "Годишен предизвик: ‘Секој ден физичка активност’",
+    "Поставување месечни цели",
+    "Неделен приказ (+ оброци, внес на вода, тренинг, белешки) (x60)",
+    "Месечен буџет (x12)",
+    "Месечно следење на нови навики (x12)",
+    "Месечна рефлексија (x12)",
+    "Пола страна шема од точки за да запишете/организирате нешто дополнително доколку е потребно (x12)",
+    "Благодарност (x12)",
+    "Страници за анксиозност",
+    "5,4,3,2,1 метод за смирување",
+    "Страници за самодоверба, самопочитување, животен баланс, грижи, благодарност, повторно откривање на себе, манифестирање, позитивни афирмации, рецепт за среќа",
+    "30 дена - предизвик за здрави навики",
+    "Кои се вашите желби, а што навистина ви треба",
+    "Работи кои би сакале да ги направите пред вашиот роденден",
+    "Накити ја елката со твоите најголеми достигнувања",
+    "Кој е твојот живот од соништата и што е тоа што те кочи",
+    "Страници со различни прашања кои навистина ќе ве натераат да размислите",
+    "Инструкции кои ќе ви помогнат да ги пополните страните",
+    "План за патување (x2)",
+    "Brain dump (x4)",
+    "Секојдневно следење и боење на чувства (Mood Tracker)",
+    "Преслатки стикери на крајот од дневникот"
+]
+
+const skys2027Characteristics = [
+    "A5 формат",
+    "218 страни",
+    "Тврди корици",
+    "Златен тисок",
+    "Недатумиран",
+    "Календар за 2027 и 2028",
+    "Достапен на македонски"
+]
+
 const planners = [
     {
         id: 1,
@@ -317,7 +370,7 @@ const planners = [
             ],
         price: "1200 ден",
         sale: true,
-        discountedPrice: "690 ден"
+        discountedPrice: "600 ден"
     },
     {
         id: 8,
@@ -451,7 +504,78 @@ const planners = [
             ],
         price: "950 ден",
         sale: true,
-        discountedPrice: "690 ден"
+        discountedPrice: "400 ден",
+        hideInBanner: true
+    },
+    {
+        id: 11,
+        title: "Sky’s The Limit 2027 - Merlot",
+        subtitle: "Недатумиран дневник за планирање и организирање – сега со календар за 2027 и 2028.",
+        collection: 2027,
+        characteristics: skys2027Characteristics,
+        content: skys2027Content,
+        bannerImg: MerlotPlanner,
+        cardImage: MerlotPlanner,
+        images:
+            [
+                MerlotPlanner,
+                Skys2027Page2,
+                Skys2027Page3,
+                Skys2027Page4,
+                Skys2027Page1
+            ],
+        price: "1200 ден",
+        sale: true,
+        discountedPrice: "1090 ден"
+    },
+    {
+        id: 12,
+        title: "Sky’s The Limit 2027 - Dusk",
+        subtitle: "Недатумиран дневник за планирање и организирање – сега со календар за 2027 и 2028.",
+        collection: 2027,
+        characteristics: skys2027Characteristics,
+        content: skys2027Content,
+        bannerImg: DuskPlanner,
+        cardImage: DuskPlanner,
+        images:
+            [
+                DuskPlanner,
+                Skys2027Page2,
+                Skys2027Page3,
+                Skys2027Page4,
+                Skys2027Page1
+            ],
+        price: "1200 ден",
+        sale: true,
+        discountedPrice: "1090 ден"
+    },
+    {
+        id: 13,
+        title: "Bullet Journal - Cinnamon",
+        subtitle: "Празни страници, бескрајни можности – твојот систем, твоите правила.",
+        collection: 2027,
+        characteristics: [
+            "A5 формат",
+            "200 страни",
+            "Тврди корици",
+            "Златен тисок",
+            "Точкеста мрежа (dot grid) на секоја страна"
+        ],
+        content: [
+            "200 страни со точкеста мрежа (bullet journal)",
+            "Целосна слобода – креирај свои распореди, листи, трекери и цртежи",
+            "Совршен за неделни и месечни распореди, следење на навики, белешки и скици"
+        ],
+        bannerImg: CinnamonJournal,
+        cardImage: CinnamonJournal,
+        images:
+            [
+                CinnamonJournal,
+                CinnamonLifestyle
+            ],
+        price: "970 ден",
+        sale: true,
+        discountedPrice: "850 ден"
     },
 ]
 export default planners

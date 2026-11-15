@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 
 import NavBar from './components/NavBar.jsx';
@@ -28,12 +28,22 @@ const AboutUs = lazy(() => import('./components/AboutUs.jsx'));
 const Contact = lazy(() => import('./components/Contact.jsx'));
 const Delivery = lazy(() => import('./components/Delivery.jsx'));
 
+function PageFade({ children }) {
+  const { pathname } = useLocation();
+  return (
+    <div key={pathname} className="page-in flex-1 flex flex-col w-full min-w-0">
+      {children}
+    </div>
+  );
+}
+
 function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
       <div className="min-h-screen flex flex-col bg-white">
         <NavBar />
+        <PageFade>
         <Routes>
           <Route
             path="/"
@@ -41,8 +51,10 @@ function App() {
               <>
                 <BannerTestimonials />
                 <NewCollection />
-                <div className='bg-pink-100'> <MostPopular /></div>
-                <GiftIdeas />
+                <div className="bg-[#cdd0d6] flow-root">
+                  <MostPopular />
+                  <GiftIdeas />
+                </div>
               </>
             }
           />
@@ -76,6 +88,7 @@ function App() {
               </Suspense>}
           />
         </Routes>
+        </PageFade>
         <Footer />
       </div>
     </BrowserRouter>

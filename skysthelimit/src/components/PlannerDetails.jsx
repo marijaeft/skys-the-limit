@@ -1,194 +1,202 @@
 import planners from "../data/planners-data.js";
 import gifts from "../data/Combo.js";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { addToCart } from "../data/Cart.js";
-import { FiShoppingCart } from "react-icons/fi";
+import { FiShoppingBag, FiTruck, FiCheck, FiChevronLeft, FiChevronRight, FiX } from "react-icons/fi";
 import { GiButterfly } from "react-icons/gi";
+import Recommendations from "./Recommendations.jsx";
+import { discountPercent } from "./ProductCard.jsx";
+import { DELIVERY_COST } from '../data/delivery.js';
 
+const allProducts = [...planners, ...gifts];
+const toNumber = (price) => parseInt(String(price).replace(/\D/g, ""), 10) || 0;
 
 export default function PlannerDetails() {
   const { id } = useParams();
-  const allProducts = [...planners, ...gifts];
   const planner = allProducts.find((p) => p.id === parseInt(id, 10));
+  const images = planner?.images ?? [];
 
   const [quantity, setQuantity] = useState(1);
-  const [openImage, setOpenImage] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [lightboxIndex, setLightboxIndex] = useState(null);
+  const [added, setAdded] = useState(false);
   const imgRef = useRef(null);
 
-  if (!planner) {
-    return <p className="text-center text-gray-500 text-lg mt-12">Производот не е пронајден.</p>;
-  }
-
-  const unitPrice = planner.sale
-    ? parseInt(planner.discountedPrice.replace(/\D/g, ""), 10)
-    : parseInt(planner.price.replace(/\D/g, ""), 10);
-
-  const totalPrice = unitPrice * quantity;
-
-  const allImages = [...planner.images];
-  const currentIndex = allImages.indexOf(openImage);
-
-  const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) {
-      addToCart(planner.id);
-    }
-  };
+  // Reset when navigating to another product (e.g. from recommendations)
+  useEffect(() => {
+    setQuantity(1);
+    setActiveIndex(0);
+    setLightboxIndex(null);
+    setAdded(false);
+  }, [id]);
 
   useEffect(() => {
+    if (lightboxIndex === null) return;
     const handleKey = (e) => {
-      if (!openImage) return;
-      if (e.key === "ArrowRight" && currentIndex < allImages.length - 1) {
-        setOpenImage(allImages[currentIndex + 1]);
-      } else if (e.key === "ArrowLeft" && currentIndex > 0) {
-        setOpenImage(allImages[currentIndex - 1]);
-      } else if (e.key === "Escape") {
-        setOpenImage(null);
-      }
+      if (e.key === "ArrowRight") setLightboxIndex((i) => Math.min(images.length - 1, i + 1));
+      else if (e.key === "ArrowLeft") setLightboxIndex((i) => Math.max(0, i - 1));
+      else if (e.key === "Escape") setLightboxIndex(null);
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [openImage, currentIndex]);
+  }, [lightboxIndex, images.length]);
 
   useEffect(() => {
-    let startX = 0;
-
-    const handleTouchStart = (e) => {
-      startX = e.touches[0].clientX;
-    };
-
-    const handleTouchEnd = (e) => {
-      const endX = e.changedTouches[0].clientX;
-      const deltaX = startX - endX;
-
-      if (deltaX > 50 && currentIndex < allImages.length - 1) {
-        setOpenImage(allImages[currentIndex + 1]);
-      } else if (deltaX < -50 && currentIndex > 0) {
-        setOpenImage(allImages[currentIndex - 1]);
-      }
-    };
-
     const imgEl = imgRef.current;
-    if (imgEl) {
-      imgEl.addEventListener("touchstart", handleTouchStart);
-      imgEl.addEventListener("touchend", handleTouchEnd);
-    }
-
-    return () => {
-      if (imgEl) {
-        imgEl.removeEventListener("touchstart", handleTouchStart);
-        imgEl.removeEventListener("touchend", handleTouchEnd);
-      }
+    if (!imgEl) return;
+    let startX = 0;
+    const onStart = (e) => { startX = e.touches[0].clientX; };
+    const onEnd = (e) => {
+      const deltaX = startX - e.changedTouches[0].clientX;
+      if (deltaX > 50) setLightboxIndex((i) => Math.min(images.length - 1, i + 1));
+      else if (deltaX < -50) setLightboxIndex((i) => Math.max(0, i - 1));
     };
-  }, [currentIndex, openImage]);
+    imgEl.addEventListener("touchstart", onStart);
+    imgEl.addEventListener("touchend", onEnd);
+    return () => {
+      imgEl.removeEventListener("touchstart", onStart);
+      imgEl.removeEventListener("touchend", onEnd);
+    };
+  }, [lightboxIndex, images.length]);
+
+  if (!planner) {
+    return <p className="text-center text-stone-500 text-lg mt-32">Производот не е пронајден.</p>;
+  }
+
+  const fullPrice = toNumber(planner.price);
+  const unitPrice = planner.sale ? toNumber(planner.discountedPrice) : fullPrice;
+  const percent = discountPercent(planner);
+
+  const handleAddToCart = () => {
+    for (let i = 0; i < quantity; i++) addToCart(planner.id);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+  };
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-16 font-sans">
-      <h1 className="text-3xl sm:text-5xl md:text-5xl text-center mb-16 mt-5 font-light text-yellow-400 leading-snug pb-1">
-        {planner.title}
-      </h1>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-20">
+      <nav className="text-sm text-stone-500 mb-8">
+        <Link to="/" className="hover:text-stone-900">Почетна</Link>
+        <span className="mx-2">/</span>
+        <Link to="/products" className="hover:text-stone-900">Планери</Link>
+        <span className="mx-2">/</span>
+        <span className="text-stone-800">{planner.title}</span>
+      </nav>
 
-
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start -mt-9">
-        <div className="space-y-6">
-          <div className="rounded-2xl overflow-hidden shadow-lg">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-start">
+        {/* Gallery */}
+        <div className="md:sticky md:top-28 space-y-4">
+          <div className="relative rounded-3xl overflow-hidden bg-stone-50 ring-1 ring-stone-200/70">
             <img
-              src={planner.images[0]}
-              alt="Main"
-              className="w-full h-auto object-cover transition duration-500 cursor-zoom-in"
-              onClick={() => setOpenImage(planner.images[0])}
+              src={images[activeIndex]}
+              alt={planner.title}
+              className="w-full aspect-square object-cover cursor-zoom-in"
+              onClick={() => setLightboxIndex(activeIndex)}
             />
           </div>
-          <div className="grid grid-cols-3 gap-4">
-            {planner.images.map((img, idx) => (
-              <img
-                key={idx}
-                src={img}
-                alt={`Thumbnail ${idx}`}
-                className="w-full h-28 object-cover rounded-xl shadow cursor-pointer hover:scale-105 transition-transform"
-                onClick={() => setOpenImage(img)}
-              />
-            ))}
-          </div>
+          {images.length > 1 && (
+            <div className={`grid gap-2 sm:gap-3 ${images.length >= 5 ? "grid-cols-5" : "grid-cols-4"}`}>
+              {images.map((img, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setActiveIndex(idx)}
+                  className={`rounded-2xl overflow-hidden bg-stone-50 ring-2 transition ${
+                    idx === activeIndex ? "ring-navy-900" : "ring-transparent hover:ring-stone-300"
+                  }`}
+                >
+                  <img src={img} alt={`${planner.title} ${idx + 1}`} className="w-full aspect-square object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
-        <div className="space-y-8">
-          <div>
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Карактеристики</h2>
-            <ul className="text-gray-600 leading-relaxed space-y-2">
+        {/* Info */}
+        <div>
+          <h1 className="font-serif text-4xl sm:text-5xl text-stone-900 leading-tight">{planner.title}</h1>
+          {planner.subtitle && <p className="text-stone-600 text-lg mt-3 leading-relaxed">{planner.subtitle}</p>}
+
+          <div className="flex items-baseline flex-wrap gap-3 mt-6">
+            <span className="text-3xl font-bold text-stone-900">
+              {(unitPrice * quantity).toLocaleString("mk-MK")} ден
+            </span>
+            {percent > 0 && (
+              <>
+                <span className="text-lg text-stone-400 line-through">
+                  {(fullPrice * quantity).toLocaleString("mk-MK")} ден
+                </span>
+                <span className="rounded-full bg-rose-100 text-rose-700 text-sm font-semibold px-3 py-1">
+                  Заштеди {percent}%
+                </span>
+              </>
+            )}
+          </div>
+
+          <div className="flex flex-wrap items-center gap-4 mt-8">
+            <div className="flex items-center rounded-full ring-1 ring-stone-300 bg-white">
+              <button
+                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                disabled={quantity <= 1}
+                className="w-11 h-12 text-xl text-stone-700 disabled:opacity-30"
+                aria-label="Намали количина"
+              >
+                −
+              </button>
+              <input
+                id="quantity"
+                type="number"
+                min="1"
+                max="100"
+                value={quantity}
+                onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                className="w-10 text-center text-lg outline-none bg-transparent [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none"
+                aria-label="Количина"
+              />
+              <button
+                onClick={() => setQuantity((q) => q + 1)}
+                className="w-11 h-12 text-xl text-stone-700"
+                aria-label="Зголеми количина"
+              >
+                +
+              </button>
+            </div>
+
+            <button
+              onClick={handleAddToCart}
+              className={`flex-1 min-w-[220px] h-12 flex items-center justify-center gap-2 rounded-full text-white font-semibold shadow-lg transition-all duration-300 active:scale-[0.97] ${
+                added ? "bg-emerald-600" : "bg-navy-950 hover:bg-navy-900 hover:shadow-xl"
+              }`}
+            >
+              {added ? <FiCheck size={20} /> : <FiShoppingBag size={20} />}
+              <span>{added ? "Додадено во кошничка" : "Додади во кошничка"}</span>
+            </button>
+          </div>
+
+          <div className="flex items-center gap-3 mt-5 text-sm text-stone-600">
+            <FiTruck className="text-amber-600" size={18} />
+            <span>Достава {DELIVERY_COST} ден · плаќање при достава</span>
+          </div>
+
+          <div className="mt-10 rounded-3xl bg-[#fbf7f2] p-6 sm:p-8">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.25em] text-amber-700 mb-4">Карактеристики</h2>
+            <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-2 text-stone-700">
               {planner.characteristics.map((c, idx) => (
                 <li key={idx} className="flex items-center gap-2">
-                  <GiButterfly className="text-grey-600 flex-shrink-0" size={20} />
+                  <FiCheck className="text-amber-600 flex-shrink-0" />
                   <span>{c}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="flex flex-col space-y-4">
-            <div className="flex items-center gap-4">
-              <label htmlFor="quantity" className="text-lg font-medium text-gray-700">
-                Количина:
-              </label>
-              <div className="flex items-center border border-gray-300 rounded-full overflow-hidden shadow-sm">
-                <button
-                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  className="px-4 py-2 text-gray-700 hover:bg-gray-100 transition disabled:opacity-50"
-                  disabled={quantity <= 1}
-                >
-                  −
-                </button>
-                <input
-                  id="quantity"
-                  type="number"
-                  min="1"
-                  max="100"
-                  value={quantity}
-                  onChange={(e) =>
-                    setQuantity(Math.max(1, parseInt(e.target.value) || 1))
-                  }
-                  className="w-14 text-center text-lg border-x border-gray-200 outline-none focus:ring-0"
-                />
-                <button
-                  onClick={() => setQuantity((q) => q + 1)}
-                  className="px-4 py-2 text-gray-700 hover:bg-gray-100 transition"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-
-            <div className="text-2xl sm:text-3xl font-bold text-yellow-600 flex flex-col sm:flex-row sm:items-center gap-2">
-              {planner.sale && (
-                <span className="text-sm sm:text-base text-gray-400 line-through">
-                  {(parseInt(planner.price.replace(/\D/g, ""), 10) * quantity).toLocaleString("mk-MK")} ден
-                </span>
-              )}
-              <span>
-                {totalPrice.toLocaleString("mk-MK")} ден
-              </span>
-            </div>
-
-
-            <button
-              onClick={handleAddToCart}
-              className="bg-yellow-300 hover:bg-yellow-500 flex items-center gap-2 text-white text-lg font-semibold px-8 py-3 rounded-full shadow-lg transition duration-300"
-            >
-              <FiShoppingCart className="text-2xl" />
-              <span>Додади во кошничка</span>
-            </button>
-          </div>
-
-          <hr className="border-yellow-500 my-6" />
-
-
-          <div>
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Содржина</h2>
-            <ul className="text-gray-600 leading-relaxed space-y-2">
+          <div className="mt-8">
+            <h2 className="text-xs font-semibold uppercase tracking-[0.25em] text-amber-700 mb-4">Содржина</h2>
+            <ul className="space-y-3 text-stone-700 leading-relaxed">
               {planner.content.map((item, idx) => (
-                <li key={idx} className="flex items-center gap-2">
-                  <GiButterfly className="text-yellow-300 flex-shrink-0" size={20} />
+                <li key={idx} className="flex items-start gap-3">
+                  <GiButterfly className="text-amber-500 flex-shrink-0 mt-1" size={18} />
                   <span>{item}</span>
                 </li>
               ))}
@@ -197,36 +205,43 @@ export default function PlannerDetails() {
         </div>
       </div>
 
-      {openImage && (
+      <Recommendations excludeId={planner.id} />
+
+      {lightboxIndex !== null && (
         <div
-          onClick={() => setOpenImage(null)}
-          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
+          onClick={() => setLightboxIndex(null)}
+          className="fixed inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center z-[60] p-4"
         >
-          <div
-            className="relative"
-            onClick={(e) => e.stopPropagation()}
+          <button
+            className="absolute top-5 right-5 text-white/80 hover:text-white"
+            onClick={() => setLightboxIndex(null)}
+            aria-label="Затвори"
           >
+            <FiX size={28} />
+          </button>
+          <div className="relative" onClick={(e) => e.stopPropagation()}>
             <img
               ref={imgRef}
-              src={openImage}
-              alt="Zoomed"
-              className="max-w-full sm:max-w-5xl max-h-[70vh] sm:max-h-[90vh] rounded-xl shadow-2xl select-none"
+              src={images[lightboxIndex]}
+              alt={planner.title}
+              className="max-w-full sm:max-w-5xl max-h-[80vh] sm:max-h-[90vh] rounded-2xl shadow-2xl select-none"
             />
-
-            {currentIndex > 0 && (
+            {lightboxIndex > 0 && (
               <button
-                onClick={() => setOpenImage(allImages[currentIndex - 1])}
-                className="absolute left-0 top-1/2 transform -translate-y-1/2 px-4 py-2 text-white text-3xl bg-black bg-opacity-30 hover:bg-opacity-50 transition rounded-r-lg"
+                onClick={() => setLightboxIndex(lightboxIndex - 1)}
+                className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 text-stone-900 shadow"
+                aria-label="Претходна"
               >
-                ‹
+                <FiChevronLeft size={24} />
               </button>
             )}
-            {currentIndex < allImages.length - 1 && (
+            {lightboxIndex < images.length - 1 && (
               <button
-                onClick={() => setOpenImage(allImages[currentIndex + 1])}
-                className="absolute right-0 top-1/2 transform -translate-y-1/2 px-4 py-2 text-white text-3xl bg-black bg-opacity-30 hover:bg-opacity-50 transition rounded-l-lg"
+                onClick={() => setLightboxIndex(lightboxIndex + 1)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 text-stone-900 shadow"
+                aria-label="Следна"
               >
-                ›
+                <FiChevronRight size={24} />
               </button>
             )}
           </div>
