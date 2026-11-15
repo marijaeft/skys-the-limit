@@ -96,7 +96,7 @@ export default function PlannerDetails() {
             />
           </div>
           {images.length > 1 && (
-            <div className={`grid gap-2 sm:gap-3 ${images.length >= 5 ? "grid-cols-5" : "grid-cols-4"}`}>
+            <div className={`grid gap-2 sm:gap-3 ${images.length >= 6 ? "grid-cols-6" : images.length === 5 ? "grid-cols-5" : "grid-cols-4"}`}>
               {images.map((img, idx) => (
                 <button
                   key={idx}
