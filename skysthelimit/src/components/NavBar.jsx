@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import logo_skys from '../assets/logo_skys.webp';
 import { FiShoppingBag, FiMenu, FiX, FiCheckCircle } from 'react-icons/fi';
 import { getCart } from '../data/Cart.js';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+
+// pages where the "added to cart" toast is not shown (the page shows it itself)
+const NO_TOAST = ['/gifts'];
 
 const links = [
   { to: '/products', label: 'Планери' },
@@ -15,12 +18,13 @@ function NavBar() {
   const [cartCount, setCartCount] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
+  const { pathname } = useLocation();
 
   const updateCartCount = () => {
     const cart = getCart();
     const totalCount = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
 
-    if (totalCount > cartCount) {
+    if (totalCount > cartCount && !NO_TOAST.includes(pathname)) {
       setShowNotification(true);
       setTimeout(() => setShowNotification(false), 2000);
     }
@@ -36,7 +40,7 @@ function NavBar() {
       window.removeEventListener('cartUpdated', updateCartCount);
       window.removeEventListener('storage', updateCartCount);
     };
-  }, [cartCount]);
+  }, [cartCount, pathname]);
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-white border-b border-stone-200/70">
