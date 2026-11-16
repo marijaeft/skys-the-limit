@@ -7,9 +7,9 @@ export default function Cards() {
         <section className="w-full max-w-7xl mx-auto px-4 pt-28 sm:pt-32 pb-20">
             <Reveal className="text-center mb-12">
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-amber-700">Честитки</p>
-                <h1 className="font-serif text-4xl sm:text-5xl text-stone-900 mt-3">Кажи го со честитка</h1>
+                <h1 className="font-serif text-4xl sm:text-5xl text-stone-900 mt-3">За моменти што вреди да се одбележат</h1>
                 <p className="text-stone-600 mt-3 max-w-xl mx-auto">
-                    Рачно дизајнирани честитки на квалитетна хартија – совршен додаток на секој подарок.
+                    Уникатни честитки со внимателно осмислен дизајн, кои ќе го направат секој подарок уште поспецијален.
                 </p>
             </Reveal>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

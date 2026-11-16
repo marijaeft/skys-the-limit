@@ -104,3 +104,29 @@ html {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* looping attention on the payment buttons */
+@keyframes shine-sweep {
+  0% { left: -45%; }
+  55%, 100% { left: 125%; }
+}
+.shine-loop {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -45%;
+  width: 35%;
+  transform: skewX(-12deg);
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.28), transparent);
+  pointer-events: none;
+  animation: shine-sweep 3.6s ease-in-out infinite;
+}
+@keyframes arrow-nudge {
+  0%, 60%, 100% { transform: translateX(0); }
+  70% { transform: translateX(5px); }
+  80% { transform: translateX(0); }
+  90% { transform: translateX(3px); }
+}
+.arrow-nudge {
+  animation: arrow-nudge 2.4s ease-in-out infinite;
+}

@@ -11,9 +11,8 @@ import planners from '../data/planners-data.js';
 import gifts from '../data/Combo.js';
 import cards from '../data/cards-data.js';
 import CheckoutSteps from './CheckoutSteps.jsx';
-
-const toNumber = (price) => parseInt(String(price).replace(/\D/g, ''), 10) || 0;
-const unit = (item) => toNumber(item.sale ? item.discountedPrice : item.price);
+import { priceOrder } from '../data/pricing.js';
+import SavingsBadge from './SavingsBadge.jsx';
 
 // fall back to the saved cart if the page was refreshed (router state is lost)
 function itemsFromCart() {
@@ -73,17 +72,24 @@ export default function OrderForm() {
     [location.state]
   );
 
-  const subtotal = cartItems.reduce((sum, item) => sum + unit(item) * item.quantity, 0);
-  const grandTotal = subtotal + DELIVERY_COST;
+  const pricing = priceOrder(cartItems);
+  const grandTotal = pricing.total;
 
-  const orderDetails = cartItems
-    .map((item, index) => {
-      const total = unit(item) * item.quantity;
-      return `${index + 1}. ${item.title} - Количина: ${item.quantity}, Цена: ${total.toFixed(2)} МКД`;
-    })
-    .join('\n');
+  const orderDetails = [
+    ...pricing.lines.map(
+      (l, index) =>
+        `${index + 1}. ${l.title} - Количина: ${l.quantity}, Цена: ${l.total.toFixed(2)} МКД` +
+        (l.unit < l.unitBefore ? ` (комбо попуст, ${l.unit} МКД/парче)` : '')
+    ),
+    ...(pricing.comboDiscount > 0
+      ? [`Комбо попуст −${pricing.pct}% (${pricing.count} планери): −${pricing.comboDiscount.toFixed(2)} МКД`]
+      : []),
+    ...(pricing.savings > 0 ? [`Вкупна заштеда за купувачот: ${pricing.savings.toFixed(2)} МКД`] : []),
+  ].join('\n');
 
-  const totalPrice = `${grandTotal.toFixed(2)} МКД (вклучува ${DELIVERY_COST} МКД достава)`;
+  const totalPrice = pricing.freeShipping
+    ? `${grandTotal.toFixed(2)} МКД (бесплатна достава)`
+    : `${grandTotal.toFixed(2)} МКД (вклучува ${DELIVERY_COST} МКД достава)`;
 
   const timeDate = new Date().toLocaleString('mk-MK', { dateStyle: 'short', timeStyle: 'short' });
 
@@ -122,8 +128,8 @@ export default function OrderForm() {
   const Summary = ({ showButton }) => (
     <div className="rounded-3xl bg-white ring-1 ring-stone-200 shadow-sm p-5 sm:p-6">
       <h2 className="font-serif text-2xl text-stone-900 mb-4">Вашата нарачка</h2>
-      <ul className="space-y-3 max-h-72 overflow-y-auto pr-1">
-        {cartItems.map((item) => (
+      <ul className="space-y-3 max-h-80 overflow-y-auto pt-2 pr-2 -mt-2">
+        {pricing.lines.map((item) => (
           <li key={item.id} className="flex items-center gap-3">
             <span className="relative shrink-0">
               <img
@@ -137,7 +143,7 @@ export default function OrderForm() {
             </span>
             <span className="flex-1 min-w-0 text-sm text-stone-800 leading-snug line-clamp-2">{item.title}</span>
             <span className="text-sm font-semibold text-stone-900 whitespace-nowrap">
-              {(unit(item) * item.quantity).toLocaleString('mk-MK')} ден
+              {item.total.toLocaleString('mk-MK')} ден
             </span>
           </li>
         ))}
@@ -145,17 +151,20 @@ export default function OrderForm() {
       <dl className="mt-5 space-y-2 border-t border-stone-100 pt-4 text-sm">
         <div className="flex justify-between text-stone-600">
           <dt>Производи</dt>
-          <dd>{subtotal.toLocaleString('mk-MK')} ден</dd>
+          <dd>{pricing.subtotal.toLocaleString('mk-MK')} ден</dd>
         </div>
         <div className="flex justify-between text-stone-600">
           <dt>Достава</dt>
-          <dd>{DELIVERY_COST} ден</dd>
+          <dd className={pricing.freeShipping ? 'font-semibold text-emerald-700' : ''}>
+            {pricing.freeShipping ? 'Бесплатна' : `${DELIVERY_COST} ден`}
+          </dd>
         </div>
         <div className="flex justify-between items-baseline border-t border-stone-100 pt-3">
           <dt className="font-semibold text-stone-900">Вкупно</dt>
           <dd className="text-2xl font-bold text-stone-900">{grandTotal.toLocaleString('mk-MK')} ден</dd>
         </div>
       </dl>
+      <SavingsBadge pricing={pricing} className="mt-4" />
       <p className="mt-3 flex items-center gap-2 rounded-2xl bg-emerald-50 text-emerald-800 text-sm px-3 py-2">
         <FiTruck className="shrink-0" /> Плаќање во готово при достава
       </p>
@@ -177,8 +186,9 @@ export default function OrderForm() {
         </>
       ) : (
         <>
+          <span className="shine-loop" />
           Потврди нарачка
-          <FiArrowRight className="text-amber-300 transition-transform group-hover:translate-x-1" />
+          <FiArrowRight className="arrow-nudge text-amber-300" />
         </>
       )}
     </button>

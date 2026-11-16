@@ -1,4 +1,5 @@
 const CART_KEY = 'cart';
+export const MAX_QTY = 100;
 
 export function getCart() {
   return JSON.parse(localStorage.getItem(CART_KEY)) || {};
@@ -11,7 +12,14 @@ function saveCart(cart) {
 
 export function addToCart(productId) {
   const cart = getCart();
-  cart[productId] = (cart[productId] || 0) + 1;
+  cart[productId] = Math.min(MAX_QTY, (cart[productId] || 0) + 1);
+  saveCart(cart);
+}
+
+export function setQuantity(productId, qty) {
+  const cart = getCart();
+  const n = Math.max(1, Math.min(MAX_QTY, Math.floor(Number(qty)) || 1));
+  cart[productId] = n;
   saveCart(cart);
 }
 

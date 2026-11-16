@@ -1,7 +1,6 @@
 import Reveal from "./Reveal.jsx";
 import { useMemo } from "react";
 import planners from "../data/planners-data.js";
-import gifts from "../data/Combo.js";
 import cards from "../data/cards-data.js";
 import ProductCard from "./ProductCard.jsx";
 
@@ -20,7 +19,7 @@ function shuffle(list) {
  */
 export default function Recommendations({ excludeId, count = 4 }) {
   const picks = useMemo(() => {
-    const main = shuffle([...planners, ...gifts].filter((p) => p.id !== excludeId));
+    const main = shuffle(planners.filter((p) => p.id !== excludeId));
     const card = shuffle(cards.filter((c) => c.id !== excludeId))[0];
     const chosen = main.slice(0, card ? count - 1 : count);
     if (card) chosen.splice(Math.floor(Math.random() * (chosen.length + 1)), 0, { ...card, isCard: true });

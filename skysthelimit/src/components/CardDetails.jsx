@@ -97,11 +97,11 @@ export default function CardDetails() {
                                     type="number"
                                     min="1"
                                     value={quantity}
-                                    onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                                    onChange={(e) => setQuantity(Math.min(100, Math.max(1, parseInt(e.target.value) || 1)))}
                                     className="w-14 text-center text-lg border-x border-gray-200 outline-none focus:ring-0"
                                 />
                                 <button
-                                    onClick={() => setQuantity((q) => q + 1)}
+                                    onClick={() => setQuantity((q) => Math.min(100, q + 1))}
                                     className="px-4 py-2 text-gray-700 hover:bg-gray-100 transition"
                                 >
                                     +

@@ -1,2 +1,3 @@
-// Цена за достава (ден) – промени ја тука и ќе се ажурира насекаде на сајтот
 export const DELIVERY_COST = 160;
+
+export const FREE_SHIPPING_FROM = 3000;

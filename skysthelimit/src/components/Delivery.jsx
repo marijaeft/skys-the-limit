@@ -1,4 +1,4 @@
-import { DELIVERY_COST } from '../data/delivery.js';
+import { DELIVERY_COST, FREE_SHIPPING_FROM } from '../data/delivery.js';
 export default function Delivery() {
     return (
         <div className="relative bg-gray-50 min-h-screen py-16 px-4 sm:px-6 lg:px-8">
@@ -15,6 +15,7 @@ export default function Delivery() {
                         <h2 className="text-2xl font-semibold text-yellow-600">Испорака</h2>
                         <p>
                             Доставата изнесува <span className="font-semibold">{DELIVERY_COST} денари</span> за секоја нарачка.
+                            За нарачки над <span className="font-semibold">{FREE_SHIPPING_FROM} денари</span> доставата е <span className="font-semibold">бесплатна</span>.
                         </p>
                         <p>
                             Доколку нарачката е направена по <span className="font-semibold">16:00 часот</span>, таа ќе биде

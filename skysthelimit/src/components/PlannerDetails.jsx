@@ -7,7 +7,8 @@ import { FiShoppingBag, FiTruck, FiCheck, FiChevronLeft, FiChevronRight, FiX } f
 import { GiButterfly } from "react-icons/gi";
 import Recommendations from "./Recommendations.jsx";
 import { discountPercent } from "./ProductCard.jsx";
-import { DELIVERY_COST } from '../data/delivery.js';
+import { DELIVERY_COST, FREE_SHIPPING_FROM } from '../data/delivery.js';
+import { isBundleEligible } from '../data/pricing.js';
 
 const allProducts = [...planners, ...gifts];
 const toNumber = (price) => parseInt(String(price).replace(/\D/g, ""), 10) || 0;
@@ -150,12 +151,12 @@ export default function PlannerDetails() {
                 min="1"
                 max="100"
                 value={quantity}
-                onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                onChange={(e) => setQuantity(Math.min(100, Math.max(1, parseInt(e.target.value) || 1)))}
                 className="w-10 text-center text-lg outline-none bg-transparent [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none"
                 aria-label="Количина"
               />
               <button
-                onClick={() => setQuantity((q) => q + 1)}
+                onClick={() => setQuantity((q) => Math.min(100, q + 1))}
                 className="w-11 h-12 text-xl text-stone-700"
                 aria-label="Зголеми количина"
               >
@@ -176,8 +177,23 @@ export default function PlannerDetails() {
 
           <div className="flex items-center gap-3 mt-5 text-sm text-stone-600">
             <FiTruck className="text-amber-600" size={18} />
-            <span>Достава {DELIVERY_COST} ден · плаќање при достава</span>
+            <span>
+              Достава {DELIVERY_COST} ден · <span className="font-semibold text-emerald-700">бесплатна над {FREE_SHIPPING_FROM.toLocaleString("mk-MK")} ден</span>
+            </span>
           </div>
+
+          {isBundleEligible(planner) && (
+            <Link
+              to="/gifts"
+              className="group mt-4 flex items-center gap-3 rounded-2xl bg-navy-50 ring-1 ring-navy-100 px-4 py-3 text-sm text-navy-950 hover:bg-navy-100 transition"
+            >
+              <span className="rounded-full bg-gradient-to-r from-amber-200 to-amber-300 px-2.5 py-1 text-xs font-bold">до −40%</span>
+              <span className="flex-1">
+                <span className="font-semibold">Комбо попуст:</span> земи 2 или повеќе планери и заштеди повеќе.
+              </span>
+              <FiChevronRight className="shrink-0 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+          )}
 
           <div className="mt-10 rounded-3xl bg-[#fbf7f2] p-6 sm:p-8">
             <h2 className="text-xs font-semibold uppercase tracking-[0.25em] text-amber-700 mb-4">Карактеристики</h2>

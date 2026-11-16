@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { getCart, addToCart, removeOneFromCart, removeFromCart } from '../data/Cart.js';
+import { getCart, addToCart, removeOneFromCart, removeFromCart, setQuantity, MAX_QTY } from '../data/Cart.js';
 import planners from '../data/planners-data.js';
 import cards from '../data/cards-data.js';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import gifts from '../data/Combo.js';
-import { DELIVERY_COST } from '../data/delivery.js';
+import { DELIVERY_COST, FREE_SHIPPING_FROM } from '../data/delivery.js';
 import CardsModal from './CardsModal.jsx';
-import { FiGift, FiArrowLeft, FiArrowRight, FiTruck, FiShoppingBag, FiTrash2, FiMinus, FiPlus } from 'react-icons/fi';
+import { FiGift, FiPercent, FiArrowRight, FiTruck, FiShoppingBag, FiTrash2, FiMinus, FiPlus } from 'react-icons/fi';
 import Recommendations from './Recommendations.jsx';
 import CheckoutSteps from './CheckoutSteps.jsx';
+import { priceOrder, regularPrice } from '../data/pricing.js';
+import SavingsBadge from './SavingsBadge.jsx';
 
 export default function Cart() {
   const [cart, setCart] = useState(getCart());
@@ -54,12 +56,12 @@ export default function Cart() {
                 onClick={() => navigate('/gifts')}
                 className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-full px-7 py-4 font-semibold text-white ring-1 ring-white/30 hover:bg-white/10 transition active:scale-[0.98]"
               >
-                <FiGift /> Комбо подароци
+                <FiGift /> Креирај комбо
               </button>
             </div>
 
             <p className="mt-8 flex items-center justify-center gap-2 text-sm text-white/60">
-              <FiTruck /> Достава {DELIVERY_COST} ден · плаќање при достава
+              <FiTruck /> Бесплатна достава над {FREE_SHIPPING_FROM} ден · комбо попуст до −40%
             </p>
           </div>
         </div>
@@ -73,23 +75,11 @@ export default function Cart() {
 
   const allProducts = [...planners, ...gifts, ...cards];
 
-  const cartItems = allProducts
-    .filter(p => cart[p.id])
-    .map(p => {
-      const price = p.sale
-        ? parseFloat(p.discountedPrice.replace(/\D/g, ""))
-        : parseFloat(p.price.replace(/\D/g, ""));
-      return {
-        ...p,
-        quantity: cart[p.id],
-        displayPrice: price,
-        totalPrice: price * cart[p.id],
-      };
-    });
-
-  const totalCartPrice = cartItems.reduce((sum, item) => sum + item.totalPrice, 0);
-  const deliveryCost = DELIVERY_COST;
-  const finalTotal = totalCartPrice + deliveryCost;
+  const pricing = priceOrder(
+    allProducts.filter((p) => cart[p.id]).map((p) => ({ ...p, quantity: cart[p.id] }))
+  );
+  const cartItems = pricing.lines.map((l) => ({ ...l, displayPrice: l.unit, totalPrice: l.total }));
+  const finalTotal = pricing.total;
   const goToCheckout = () => navigate('/order', { state: { cartItems } });
 
   return (
@@ -110,15 +100,18 @@ export default function Cart() {
 
           <div className="flex-1 min-w-0">
             <h3 className="font-serif text-lg sm:text-xl leading-tight text-stone-900">{item.title}</h3>
-            <p className="mt-1 text-sm">
-              {item.sale && (
-                <span className="line-through text-stone-400 mr-2">
-                  {parseFloat(item.price.replace(/\D/g, ""))} ден
+            <p className="mt-1 text-sm flex flex-wrap items-center gap-x-2 gap-y-1">
+              {item.unit < regularPrice(item) && (
+                <span className="line-through text-stone-400">{regularPrice(item)} ден</span>
+              )}
+              <span className={item.unit < regularPrice(item) ? "text-rose-600 font-semibold" : "text-stone-700 font-semibold"}>
+                {item.unit} ден
+              </span>
+              {item.unit < item.unitBefore && (
+                <span className="rounded-full bg-gradient-to-r from-amber-200 to-amber-300 px-2 py-0.5 text-[11px] font-bold text-navy-950">
+                  КОМБО −{pricing.pct}%
                 </span>
               )}
-              <span className={item.sale ? "text-rose-600 font-semibold" : "text-stone-700 font-semibold"}>
-                {item.displayPrice} ден
-              </span>
             </p>
 
             <div className="mt-2 flex items-center gap-3">
@@ -130,10 +123,11 @@ export default function Cart() {
                 >
                   <FiMinus size={14} />
                 </button>
-                <span className="w-6 text-center text-sm font-semibold tabular-nums">{item.quantity}</span>
+                <QtyInput id={item.id} value={item.quantity} />
                 <button
                   onClick={() => addToCart(item.id)}
-                  className="h-8 w-8 flex items-center justify-center text-stone-700 hover:text-navy-950 active:scale-90 transition"
+                  disabled={item.quantity >= MAX_QTY}
+                  className="h-8 w-8 flex items-center justify-center text-stone-700 hover:text-navy-950 active:scale-90 transition disabled:opacity-30"
                   aria-label="Зголеми количина"
                 >
                   <FiPlus size={14} />
@@ -148,59 +142,70 @@ export default function Cart() {
             </div>
           </div>
 
-          <div className="hidden sm:block text-right font-semibold text-stone-900 whitespace-nowrap">
-            {(item.displayPrice * item.quantity).toLocaleString('mk-MK')} ден
-          </div>
+          {item.quantity > 1 && (
+            <div className="hidden sm:block text-right font-semibold text-stone-900 whitespace-nowrap">
+              {(item.displayPrice * item.quantity).toLocaleString('mk-MK')} ден
+            </div>
+          )}
         </div>
       ))}
 
       <div className="flex flex-col sm:flex-row gap-3 mt-6">
         <button
           onClick={() => setCardsOpen(true)}
-          className="flex-1 flex items-center justify-center gap-2 rounded-full bg-navy-50 hover:bg-navy-100 ring-1 ring-navy-200 text-navy-950 font-semibold px-6 py-3 transition active:scale-[0.97]"
+          className="sm:flex-1 flex h-14 items-center justify-center gap-2 rounded-full bg-navy-50 hover:bg-navy-100 ring-1 ring-navy-200 text-navy-950 font-semibold px-6 transition active:scale-[0.97]"
         >
           <FiGift size={18} className="text-amber-600" />
           Додади честитка
         </button>
-        <button
-          onClick={() => navigate('/products')}
-          className="flex-1 flex items-center justify-center gap-2 rounded-full bg-navy-50 hover:bg-navy-100 ring-1 ring-navy-200 text-navy-950 font-semibold px-6 py-3 transition active:scale-[0.97]"
+        <Link
+          to="/gifts"
+          className="group sm:flex-1 flex h-14 items-center gap-3 rounded-full bg-gradient-to-r from-amber-50 to-amber-100/80 ring-1 ring-amber-200 hover:ring-amber-300 hover:shadow-sm pl-2 pr-5 text-amber-950 transition active:scale-[0.97]"
         >
-          <FiArrowLeft size={18} />
-          Додади уште производи
-        </button>
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-amber-200 to-amber-400 text-navy-950 shadow-sm">
+            <FiPercent size={18} />
+          </span>
+          <span className="flex-1 text-left leading-tight">
+            <span className="block text-sm sm:text-base font-semibold">Додади повеќе планери</span>
+            <span className="block text-xs text-amber-800/80">до −40% + бесплатна достава</span>
+          </span>
+          <FiArrowRight size={18} className="shrink-0 text-amber-700 transition-transform group-hover:translate-x-1" />
+        </Link>
       </div>
 
       <CardsModal open={cardsOpen} onClose={() => setCardsOpen(false)} />
 
       {/* order summary */}
-      <div className="mt-8 rounded-3xl bg-white ring-1 ring-stone-200 shadow-sm p-5 sm:p-7">
+      <div className="mt-6 rounded-3xl bg-white ring-1 ring-stone-200 shadow-sm p-5 sm:p-7">
         <dl className="space-y-2 text-stone-600">
           <div className="flex justify-between">
             <dt>Производи</dt>
-            <dd>{totalCartPrice.toLocaleString('mk-MK')} ден</dd>
+            <dd>{pricing.subtotal.toLocaleString('mk-MK')} ден</dd>
           </div>
           <div className="flex justify-between">
             <dt>Достава</dt>
-            <dd>{deliveryCost} ден</dd>
+            <dd className={pricing.freeShipping ? 'font-semibold text-emerald-700' : ''}>
+              {pricing.freeShipping ? 'Бесплатна' : `${DELIVERY_COST} ден`}
+            </dd>
           </div>
           <div className="flex justify-between items-baseline border-t border-stone-100 pt-3">
             <dt className="font-semibold text-stone-900">Вкупно за плаќање</dt>
             <dd className="text-3xl font-bold text-stone-900">{finalTotal.toLocaleString('mk-MK')} ден</dd>
           </div>
         </dl>
-        <p className="mt-3 flex items-center gap-2 text-sm text-emerald-800">
-          <FiTruck className="shrink-0" /> Плаќање во готово при достава
-        </p>
+        <SavingsBadge pricing={pricing} className="mt-4" />
 
         <button
           onClick={goToCheckout}
           className="group relative mt-6 hidden sm:flex w-full items-center justify-center gap-3 overflow-hidden rounded-full bg-gradient-to-r from-navy-950 via-navy-700 to-navy-950 bg-[length:200%_100%] bg-left hover:bg-right px-8 py-5 text-xl font-semibold text-white shadow-xl shadow-navy-950/30 transition-all duration-500 hover:-translate-y-0.5 active:scale-[0.98]"
         >
-          <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 -skew-x-12 bg-white/20 blur-md transition-all duration-700 group-hover:left-[110%]" />
+          <span className="shine-loop" />
           Завршете ја вашата нарачка
-          <FiArrowRight className="text-amber-300 transition-transform duration-300 group-hover:translate-x-1.5" size={22} />
+          <FiArrowRight className="arrow-nudge text-amber-300" size={22} />
         </button>
+        <p className="mt-3 hidden sm:flex items-center justify-center gap-2 text-xs text-stone-500">
+          <FiTruck className="shrink-0" /> Плаќање во готово при достава
+        </p>
       </div>
 
       {/* sticky checkout bar on phones */}
@@ -212,12 +217,42 @@ export default function Cart() {
           </div>
           <button
             onClick={goToCheckout}
-            className="flex-1 flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-navy-950 to-navy-700 px-5 py-3.5 font-semibold text-white shadow-lg shadow-navy-950/30 active:scale-[0.98] transition"
+            className="relative overflow-hidden flex-1 flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-navy-950 to-navy-700 px-5 py-3.5 font-semibold text-white shadow-lg shadow-navy-950/30 active:scale-[0.98] transition"
           >
-            Заврши нарачка <FiArrowRight className="text-amber-300" />
+            <span className="shine-loop" />
+            Заврши нарачка <FiArrowRight className="arrow-nudge text-amber-300" />
           </button>
         </div>
       </div>
     </div>
+  );
+}
+
+function QtyInput({ id, value }) {
+  const [draft, setDraft] = useState(String(value));
+  useEffect(() => setDraft(String(value)), [value]);
+
+  const commit = () => {
+    if (draft.trim() === '' || Number(draft) !== value) setQuantity(id, draft || 1);
+    else setDraft(String(value));
+  };
+
+  return (
+    <input
+      type="text"
+      inputMode="numeric"
+      pattern="[0-9]*"
+      maxLength={3}
+      value={draft}
+      onChange={(e) => {
+        const digits = e.target.value.replace(/\D/g, '');
+        setDraft(digits === '' ? '' : String(Math.min(MAX_QTY, Number(digits))));
+      }}
+      onBlur={commit}
+      onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
+      onFocus={(e) => e.currentTarget.select()}
+      aria-label="Количина"
+      className="w-9 bg-transparent text-center text-sm font-semibold tabular-nums outline-none focus:bg-navy-50 rounded-md"
+    />
   );
 }
