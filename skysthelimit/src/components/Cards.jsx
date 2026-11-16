@@ -1,15 +1,17 @@
 import cards from "../data/cards-data.js";
 import ProductCard from "./ProductCard.jsx";
 import Reveal from "./Reveal.jsx";
+import { useLang } from "../i18n/routing.jsx";
 
 export default function Cards() {
+    const { t } = useLang();
     return (
         <section className="w-full max-w-7xl mx-auto px-4 pt-28 sm:pt-32 pb-20">
             <Reveal className="text-center mb-12">
-                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-amber-700">Честитки</p>
-                <h1 className="font-serif text-4xl sm:text-5xl text-stone-900 mt-3">За моменти што вреди да се одбележат</h1>
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-amber-700">{t("shop.cardsEyebrow")}</p>
+                <h1 className="font-serif text-4xl sm:text-5xl text-stone-900 mt-3">{t("shop.cardsTitle")}</h1>
                 <p className="text-stone-600 mt-3 max-w-xl mx-auto">
-                    Уникатни честитки со внимателно осмислен дизајн, кои ќе го направат секој подарок уште поспецијален.
+                    {t("shop.cardsText")}
                 </p>
             </Reveal>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

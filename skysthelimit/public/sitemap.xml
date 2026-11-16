@@ -1,15 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset
       xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-
-
-<url>
-  <loc>https://www.skysthelimit.mk/</loc>
-  <lastmod>2025-09-23T16:31:23+00:00</lastmod>
-</url>
-
-
+      xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://www.skysthelimit.mk/</loc>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://www.skysthelimit.mk/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.skysthelimit.mk/en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.skysthelimit.mk/"/>
+  </url>
+  <url>
+    <loc>https://www.skysthelimit.mk/en</loc>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://www.skysthelimit.mk/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.skysthelimit.mk/en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.skysthelimit.mk/"/>
+  </url>
+  <url>
+    <loc>https://www.skysthelimit.mk/products</loc>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://www.skysthelimit.mk/products"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.skysthelimit.mk/en/products"/>
+  </url>
+  <url>
+    <loc>https://www.skysthelimit.mk/en/products</loc>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://www.skysthelimit.mk/products"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.skysthelimit.mk/en/products"/>
+  </url>
+  <url>
+    <loc>https://www.skysthelimit.mk/cards</loc>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://www.skysthelimit.mk/cards"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.skysthelimit.mk/en/cards"/>
+  </url>
+  <url>
+    <loc>https://www.skysthelimit.mk/en/cards</loc>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://www.skysthelimit.mk/cards"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.skysthelimit.mk/en/cards"/>
+  </url>
+  <url>
+    <loc>https://www.skysthelimit.mk/gifts</loc>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://www.skysthelimit.mk/gifts"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.skysthelimit.mk/en/gifts"/>
+  </url>
+  <url>
+    <loc>https://www.skysthelimit.mk/en/gifts</loc>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://www.skysthelimit.mk/gifts"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.skysthelimit.mk/en/gifts"/>
+  </url>
 </urlset>

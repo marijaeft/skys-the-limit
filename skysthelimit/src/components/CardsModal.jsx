@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { FiX, FiPlus, FiMinus, FiCheck } from "react-icons/fi";
 import cards from "../data/cards-data.js";
 import { addToCart } from "../data/Cart.js";
+import { useLang } from "../i18n/routing.jsx";
 
 const toNumber = (price) => parseInt(String(price).replace(/\D/g, ""), 10) || 0;
 const unitPrice = (card) => toNumber(card.sale ? card.discountedPrice : card.price);
@@ -12,6 +13,7 @@ const unitPrice = (card) => toNumber(card.sale ? card.discountedPrice : card.pri
  * closing with X / backdrop / Esc discards them.
  */
 export default function CardsModal({ open, onClose }) {
+  const { t, money, loc } = useLang();
   const [picked, setPicked] = useState({}); // { cardId: qty }
   const [dragY, setDragY] = useState(0);
   const [dragging, setDragging] = useState(false);
@@ -102,7 +104,7 @@ export default function CardsModal({ open, onClose }) {
       onClick={onClose}
       role="dialog"
       aria-modal="true"
-      aria-label="Додади честитка"
+      aria-label={t("cardsModal.title")}
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -119,20 +121,20 @@ export default function CardsModal({ open, onClose }) {
           onTouchEnd={onTouchEnd}
           onTouchCancel={onTouchEnd}
           className="sm:hidden flex justify-center w-full pt-3 pb-3 -mb-2 touch-none cursor-grab"
-          aria-label="Повлечи надолу за затворање"
+          aria-label={t("cardsModal.dragClose")}
         >
           <span className="h-1.5 w-12 rounded-full bg-stone-300" />
         </div>
 
         <div className="flex items-start justify-between gap-4 px-5 sm:px-6 pt-3 sm:pt-6 pb-4 border-b border-stone-100">
           <div>
-            <h2 className="font-serif text-2xl sm:text-3xl text-stone-900">Додади честитка</h2>
-            <p className="text-sm text-stone-500 mt-1">Допри на честитка за да ја избереш. Можеш да избереш повеќе.</p>
+            <h2 className="font-serif text-2xl sm:text-3xl text-stone-900">{t("cardsModal.title")}</h2>
+            <p className="text-sm text-stone-500 mt-1">{t("cardsModal.text")}</p>
           </div>
           <button
             onClick={onClose}
             className="p-2 -mr-2 rounded-full hover:bg-stone-100 text-stone-600"
-            aria-label="Затвори без додавање"
+            aria-label={t("cardsModal.closeAria")}
           >
             <FiX size={24} />
           </button>
@@ -140,7 +142,8 @@ export default function CardsModal({ open, onClose }) {
 
         <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain">
           <div className="px-4 sm:px-6 py-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-            {cards.slice().reverse().map((card) => {
+            {cards.slice().reverse().map((rawCard) => {
+              const card = loc(rawCard);
               const qty = picked[card.id] || 0;
               const selected = qty > 0;
               return (
@@ -161,7 +164,7 @@ export default function CardsModal({ open, onClose }) {
                       }
                     }}
                     className="relative w-full pt-[100%] cursor-pointer"
-                    aria-label={`Избери ${card.title}`}
+                    aria-label={t("cardsModal.chooseAria", { title: card.title })}
                   >
                     <img
                       src={card.cardImage}
@@ -172,7 +175,7 @@ export default function CardsModal({ open, onClose }) {
                     {/* desktop hover hint */}
                     <span className="hidden md:flex absolute inset-0 items-center justify-center bg-navy-950/0 group-hover:bg-navy-950/20 transition">
                       <span className="flex items-center gap-1.5 rounded-full bg-white text-navy-950 font-semibold text-sm px-4 py-2 shadow-lg opacity-0 group-hover:opacity-100 transition">
-                        <FiPlus /> {selected ? "Уште една" : "Избери"}
+                        <FiPlus /> {selected ? t("cardsModal.oneMore") : t("cardsModal.choose")}
                       </span>
                     </span>
 
@@ -192,7 +195,7 @@ export default function CardsModal({ open, onClose }) {
                         <button
                           onClick={() => remove(card.id)}
                           className="h-9 w-9 flex items-center justify-center text-stone-700 hover:text-navy-950 active:scale-90 transition"
-                          aria-label={`Одземи ${card.title}`}
+                          aria-label={t("cardsModal.removeAria", { title: card.title })}
                         >
                           <FiMinus size={16} />
                         </button>
@@ -202,7 +205,7 @@ export default function CardsModal({ open, onClose }) {
                     <button
                       onClick={() => add(card.id)}
                       className="h-9 w-9 flex items-center justify-center text-navy-950 active:scale-90 transition"
-                      aria-label={`Додади ${card.title}`}
+                      aria-label={t("cardsModal.addAria", { title: card.title })}
                     >
                       <FiPlus size={18} />
                     </button>
@@ -224,12 +227,12 @@ export default function CardsModal({ open, onClose }) {
             {count > 0 ? (
               <>
                 <p className="text-sm text-stone-500">
-                  {count} {count === 1 ? "честитка" : "честитки"}
+                  {t("cardsModal.count", { count })}
                 </p>
-                <p className="text-xl font-bold text-stone-900">+{total} ден</p>
+                <p className="text-xl font-bold text-stone-900">+{money(total)}</p>
               </>
             ) : (
-              <p className="text-sm text-stone-500">Избери честитка</p>
+              <p className="text-sm text-stone-500">{t("cardsModal.pick")}</p>
             )}
           </div>
           <button
@@ -237,7 +240,7 @@ export default function CardsModal({ open, onClose }) {
             disabled={count === 0}
             className="shrink-0 rounded-full bg-navy-950 text-white px-7 sm:px-8 py-3 font-semibold hover:bg-navy-900 active:scale-95 transition disabled:bg-stone-300 disabled:cursor-not-allowed"
           >
-            Готово
+            {t("cardsModal.done")}
           </button>
         </div>
       </div>

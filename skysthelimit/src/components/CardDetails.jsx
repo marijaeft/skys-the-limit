@@ -5,10 +5,12 @@ import { addToCart } from "../data/Cart.js";
 import { FiShoppingCart } from "react-icons/fi";
 import { GiButterfly } from "react-icons/gi";
 import Recommendations from "./Recommendations.jsx";
+import { useLang } from "../i18n/routing.jsx";
 
 export default function CardDetails() {
     const { id } = useParams();
-    const card = cards.find((c) => c.id === parseInt(id, 10));
+    const { t, money, loc } = useLang();
+    const card = loc(cards.find((c) => c.id === parseInt(id, 10)));
 
     const [quantity, setQuantity] = useState(1);
     const [openImage, setOpenImage] = useState(null);
@@ -31,7 +33,7 @@ export default function CardDetails() {
     if (!card) {
         return (
             <p className="text-center text-gray-500 text-lg mt-12">
-                Производот не е пронајден.
+                {t("product.notFound")}
             </p>
         );
     }
@@ -43,7 +45,6 @@ export default function CardDetails() {
     const totalPrice = unitPrice * quantity;
 
     const allImages = [card.cardImage];
-    const currentIndex = allImages.indexOf(openImage);
 
     const handleAddToCart = () => {
         for (let i = 0; i < quantity; i++) {
@@ -71,7 +72,7 @@ export default function CardDetails() {
 
                 <div className="space-y-8">
                     <div>
-                        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Карактеристики</h2>
+                        <h2 className="text-2xl font-semibold text-gray-800 mb-4">{t("product.characteristics")}</h2>
                         <ul className="text-gray-600 leading-relaxed space-y-2">
                             {card.characteristics.map((c, idx) => (
                                 <li key={idx} className="flex items-center gap-2">
@@ -84,7 +85,7 @@ export default function CardDetails() {
 
                     <div className="flex flex-col space-y-4">
                         <div className="flex items-center gap-4">
-                            <label className="text-lg font-medium text-gray-700">Количина:</label>
+                            <label className="text-lg font-medium text-gray-700">{t("product.quantityLabel")}</label>
                             <div className="flex items-center border border-gray-300 rounded-full overflow-hidden shadow-sm">
                                 <button
                                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
@@ -112,10 +113,10 @@ export default function CardDetails() {
                         <div className="text-2xl sm:text-3xl font-bold text-yellow-600 flex flex-col sm:flex-row sm:items-center gap-2">
                             {card.sale && (
                                 <span className="text-sm sm:text-base text-gray-400 line-through">
-                                    {(parseInt(card.price.replace(/\D/g, ""), 10) * quantity).toLocaleString("mk-MK")} ден
+                                    {money(parseInt(card.price.replace(/\D/g, ""), 10) * quantity)}
                                 </span>
                             )}
-                            <span>{totalPrice.toLocaleString("mk-MK")} ден</span>
+                            <span>{money(totalPrice)}</span>
                         </div>
 
                         <button
@@ -123,7 +124,7 @@ export default function CardDetails() {
                             className="bg-yellow-300 hover:bg-yellow-500 flex items-center gap-2 text-white text-lg font-semibold px-8 py-3 rounded-full shadow-lg transition duration-300"
                         >
                             <FiShoppingCart className="text-2xl" />
-                            <span>Додади во кошничка</span>
+                            <span>{t("product.add")}</span>
                         </button>
                     </div>
                 </div>

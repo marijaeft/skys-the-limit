@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
-import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLang } from '../i18n/routing.jsx';
 import emailjs from 'emailjs-com';
 import {
   FiUser, FiMail, FiPhone, FiMapPin, FiHome, FiMessageSquare,
@@ -63,14 +63,12 @@ function Section({ n, title, children }) {
 export default function OrderForm() {
   const formRef = useRef();
   const navigate = useNavigate();
-  const location = useLocation();
+  const { t, lang, money, loc } = useLang();
   const [sending, setSending] = useState(false);
   const [error, setError] = useState('');
 
-  const cartItems = useMemo(
-    () => (location.state?.cartItems?.length ? location.state.cartItems : itemsFromCart()),
-    [location.state]
-  );
+  // the cart is the source of truth (also after a refresh); the email stays in Macedonian
+  const cartItems = useMemo(() => itemsFromCart(), []);
 
   const pricing = priceOrder(cartItems);
   const grandTotal = pricing.total;
@@ -85,6 +83,7 @@ export default function OrderForm() {
       ? [`Комбо попуст −${pricing.pct}% (${pricing.count} планери): −${pricing.comboDiscount.toFixed(2)} МКД`]
       : []),
     ...(pricing.savings > 0 ? [`Вкупна заштеда за купувачот: ${pricing.savings.toFixed(2)} МКД`] : []),
+    ...(lang === 'en' ? ['Јазик на купувачот: англиски (EN)'] : []),
   ].join('\n');
 
   const totalPrice = pricing.freeShipping
@@ -102,7 +101,7 @@ export default function OrderForm() {
       await emailjs.sendForm('service_1c9ypsb', 'template_90ktaje', formRef.current, 'YxI5mOqEzj8au1gsd');
       navigate('/confirmation');
     } catch {
-      setError('Имаше проблем при испраќањето на нарачката. Ве молиме обидете се повторно.');
+      setError(t('order.error'));
       setSending(false);
     }
   };
@@ -112,13 +111,13 @@ export default function OrderForm() {
       <div className="flex-1 flex items-center justify-center px-4 pt-28 pb-20">
         <div className="text-center max-w-md">
           <FiShoppingBag className="mx-auto text-stone-300" size={56} />
-          <h1 className="font-serif text-3xl text-stone-900 mt-4">Кошничката е празна</h1>
-          <p className="text-stone-500 mt-2">Додајте производи пред да ја завршите нарачката.</p>
+          <h1 className="font-serif text-3xl text-stone-900 mt-4">{t('order.emptyTitle')}</h1>
+          <p className="text-stone-500 mt-2">{t('order.emptyText')}</p>
           <Link
             to="/products"
             className="inline-flex items-center gap-2 mt-6 rounded-full bg-navy-950 text-white font-semibold px-6 py-3 hover:bg-navy-900"
           >
-            Кон продавницата <FiArrowRight />
+            {t('order.toShop')} <FiArrowRight />
           </Link>
         </div>
       </div>
@@ -127,46 +126,46 @@ export default function OrderForm() {
 
   const Summary = ({ showButton }) => (
     <div className="rounded-3xl bg-white ring-1 ring-stone-200 shadow-sm p-5 sm:p-6">
-      <h2 className="font-serif text-2xl text-stone-900 mb-4">Вашата нарачка</h2>
+      <h2 className="font-serif text-2xl text-stone-900 mb-4">{t('order.summaryTitle')}</h2>
       <ul className="space-y-3 max-h-80 overflow-y-auto pt-2 pr-2 -mt-2">
         {pricing.lines.map((item) => (
           <li key={item.id} className="flex items-center gap-3">
             <span className="relative shrink-0">
               <img
                 src={item.cardImage || item.images?.[0]}
-                alt={item.title}
+                alt={loc(item).title}
                 className="h-14 w-14 rounded-xl object-cover bg-stone-100"
               />
               <span className="absolute -top-1.5 -right-1.5 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-stone-900 px-1 text-[11px] font-bold text-white">
                 {item.quantity}
               </span>
             </span>
-            <span className="flex-1 min-w-0 text-sm text-stone-800 leading-snug line-clamp-2">{item.title}</span>
+            <span className="flex-1 min-w-0 text-sm text-stone-800 leading-snug line-clamp-2">{loc(item).title}</span>
             <span className="text-sm font-semibold text-stone-900 whitespace-nowrap">
-              {item.total.toLocaleString('mk-MK')} ден
+              {money(item.total)}
             </span>
           </li>
         ))}
       </ul>
       <dl className="mt-5 space-y-2 border-t border-stone-100 pt-4 text-sm">
         <div className="flex justify-between text-stone-600">
-          <dt>Производи</dt>
-          <dd>{pricing.subtotal.toLocaleString('mk-MK')} ден</dd>
+          <dt>{t('cart.products')}</dt>
+          <dd>{money(pricing.subtotal)}</dd>
         </div>
         <div className="flex justify-between text-stone-600">
-          <dt>Достава</dt>
+          <dt>{t('cart.delivery')}</dt>
           <dd className={pricing.freeShipping ? 'font-semibold text-emerald-700' : ''}>
-            {pricing.freeShipping ? 'Бесплатна' : `${DELIVERY_COST} ден`}
+            {pricing.freeShipping ? t('cart.free') : money(DELIVERY_COST)}
           </dd>
         </div>
         <div className="flex justify-between items-baseline border-t border-stone-100 pt-3">
-          <dt className="font-semibold text-stone-900">Вкупно</dt>
-          <dd className="text-2xl font-bold text-stone-900">{grandTotal.toLocaleString('mk-MK')} ден</dd>
+          <dt className="font-semibold text-stone-900">{t('cart.total')}</dt>
+          <dd className="text-2xl font-bold text-stone-900">{money(grandTotal)}</dd>
         </div>
       </dl>
       <SavingsBadge pricing={pricing} className="mt-4" />
       <p className="mt-3 flex items-center gap-2 rounded-2xl bg-emerald-50 text-emerald-800 text-sm px-3 py-2">
-        <FiTruck className="shrink-0" /> Плаќање во готово при достава
+        <FiTruck className="shrink-0" /> {t('cart.payOnDelivery')}
       </p>
       {showButton && <SubmitButton className="mt-5 hidden lg:flex" />}
     </div>
@@ -182,12 +181,12 @@ export default function OrderForm() {
       {sending ? (
         <>
           <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-          Се испраќа…
+          {t('order.sending')}
         </>
       ) : (
         <>
           <span className="shine-loop" />
-          Потврди нарачка
+          {t('order.confirm')}
           <FiArrowRight className="arrow-nudge text-amber-300" />
         </>
       )}
@@ -199,8 +198,8 @@ export default function OrderForm() {
       <div className="max-w-6xl mx-auto">
         <CheckoutSteps current={1} />
         <div className="text-center mb-8">
-          <h1 className="font-serif text-4xl sm:text-5xl text-stone-900">Податоци за нарачка</h1>
-          <p className="text-stone-600 mt-2">Уште само еден чекор – пополнете ги податоците за достава.</p>
+          <h1 className="font-serif text-4xl sm:text-5xl text-stone-900">{t('order.title')}</h1>
+          <p className="text-stone-600 mt-2">{t('order.subtitle')}</p>
         </div>
 
         <div className="grid lg:grid-cols-[1fr_380px] gap-6 items-start">
@@ -215,18 +214,18 @@ export default function OrderForm() {
             onSubmit={handleSubmit}
             className="lg:order-1 space-y-5"
           >
-            <Section n={1} title="Ваши податоци">
+            <Section n={1} title={t('order.s1')}>
               <div className="grid sm:grid-cols-2 gap-4">
-                <Field label="Име" icon={FiUser} required>
-                  <input type="text" name="firstName" required autoComplete="given-name" placeholder="Ана" className={inputCls} />
+                <Field label={t('order.firstName')} icon={FiUser} required>
+                  <input type="text" name="firstName" required autoComplete="given-name" placeholder={t('order.firstNamePh')} className={inputCls} />
                 </Field>
-                <Field label="Презиме" icon={FiUser} required>
-                  <input type="text" name="lastName" required autoComplete="family-name" placeholder="Николовска" className={inputCls} />
+                <Field label={t('order.lastName')} icon={FiUser} required>
+                  <input type="text" name="lastName" required autoComplete="family-name" placeholder={t('order.lastNamePh')} className={inputCls} />
                 </Field>
-                <Field label="Email адреса" icon={FiMail} required hint="Тука ќе ја добиете потврдата за нарачката.">
-                  <input type="email" name="email" required autoComplete="email" inputMode="email" placeholder="ime@primer.com" className={inputCls} />
+                <Field label={t('order.email')} icon={FiMail} required hint={t('order.emailHint')}>
+                  <input type="email" name="email" required autoComplete="email" inputMode="email" placeholder={t('order.emailPh')} className={inputCls} />
                 </Field>
-                <Field label="Телефон" icon={FiPhone} required hint="Курирот ќе ве контактира на овој број.">
+                <Field label={t('order.phone')} icon={FiPhone} required hint={t('order.phoneHint')}>
                   <input
                     type="tel"
                     name="phone"
@@ -234,28 +233,28 @@ export default function OrderForm() {
                     autoComplete="tel"
                     inputMode="tel"
                     pattern="[0-9+ ]{6,}"
-                    title="Внесете важечки телефонски број"
-                    placeholder="07X XXX XXX"
+                    title={t('order.phoneTitle')}
+                    placeholder={t('order.phonePh')}
                     className={inputCls}
                   />
                 </Field>
               </div>
             </Section>
 
-            <Section n={2} title="Адреса за достава">
+            <Section n={2} title={t('order.s2')}>
               <div className="grid sm:grid-cols-[2fr_1fr] gap-4">
-                <Field label="Адреса" icon={FiHome} required>
-                  <input type="text" name="address" required autoComplete="street-address" placeholder="Улица и број, стан" className={inputCls} />
+                <Field label={t('order.address')} icon={FiHome} required>
+                  <input type="text" name="address" required autoComplete="street-address" placeholder={t('order.addressPh')} className={inputCls} />
                 </Field>
-                <Field label="Град" icon={FiMapPin} required>
-                  <input type="text" name="city" required autoComplete="address-level2" placeholder="Скопје" className={inputCls} />
+                <Field label={t('order.city')} icon={FiMapPin} required>
+                  <input type="text" name="city" required autoComplete="address-level2" placeholder={t('order.cityPh')} className={inputCls} />
                 </Field>
               </div>
             </Section>
 
-            <Section n={3} title="Забелешка">
-              <Field label="Дополнителни информации" icon={FiMessageSquare} hint="Незадолжително – пр. порака за честитката, време за достава…">
-                <textarea name="additionalInfo" rows="4" placeholder="Напишете ни ако имате посебно барање" className={`${inputCls} resize-none`} />
+            <Section n={3} title={t('order.s3')}>
+              <Field label={t('order.notes')} icon={FiMessageSquare} hint={t('order.notesHint')}>
+                <textarea name="additionalInfo" rows="4" placeholder={t('order.notesPh')} className={`${inputCls} resize-none`} />
               </Field>
             </Section>
 
@@ -271,10 +270,10 @@ export default function OrderForm() {
 
             <div className="flex items-center justify-between gap-4">
               <Link to="/cart" className="inline-flex items-center gap-2 text-stone-600 hover:text-stone-900 text-sm font-medium">
-                <FiArrowLeft /> Назад во кошничка
+                <FiArrowLeft /> {t('order.back')}
               </Link>
               <span className="flex items-center gap-1.5 text-xs text-stone-500">
-                <FiLock /> Податоците се користат само за достава
+                <FiLock /> {t('order.privacy')}
               </span>
             </div>
           </form>
@@ -285,8 +284,8 @@ export default function OrderForm() {
       <div className="lg:hidden fixed inset-x-0 bottom-0 z-40 border-t border-stone-200 bg-white/95 backdrop-blur px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
         <div className="max-w-xl mx-auto flex items-center gap-3">
           <div className="shrink-0">
-            <p className="text-xs text-stone-500">Вкупно</p>
-            <p className="text-lg font-bold text-stone-900">{grandTotal.toLocaleString('mk-MK')} ден</p>
+            <p className="text-xs text-stone-500">{t('cart.total')}</p>
+            <p className="text-lg font-bold text-stone-900">{money(grandTotal)}</p>
           </div>
           <SubmitButton className="flex-1 py-3.5 text-base" />
         </div>

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLang } from "../i18n/routing.jsx";
 import { FiTruck, FiPercent, FiCheck } from "react-icons/fi";
 import { FREE_SHIPPING_FROM } from "../data/delivery.js";
 import { BUNDLE_TIERS } from "../data/pricing.js";
@@ -7,6 +7,7 @@ const maxTier = BUNDLE_TIERS[BUNDLE_TIERS.length - 1];
 
 /** One quiet line of hints for the checkout (no boxes, no progress bars). */
 export function OrderHints({ pricing, className = "" }) {
+  const { t, money } = useLang();
   const { count, next, freeShipping } = pricing;
   const showCombo = count > 0 && next;
   if (!showCombo && freeShipping) return null;
@@ -15,17 +16,18 @@ export function OrderHints({ pricing, className = "" }) {
     <p className={`text-xs text-stone-500 leading-relaxed ${className}`}>
       {showCombo && (
         <Link to="/gifts" className="underline decoration-stone-300 underline-offset-2 hover:text-navy-900">
-          Додај уште еден планер за поголем попуст
+          {t("hints.addOne")}
         </Link>
       )}
       {showCombo && !freeShipping && <span className="mx-1.5">·</span>}
-      {!freeShipping && <>Бесплатна достава над {FREE_SHIPPING_FROM} ден</>}
+      {!freeShipping && <>{t("hints.freeOver", { amount: money(FREE_SHIPPING_FROM) })}</>}
     </p>
   );
 }
 
 /** Progress towards the next combo tier and free shipping. Takes priceOrder() output. */
 export default function OrderPerks({ pricing, className = "" }) {
+  const { t, money } = useLang();
   const { count, pct, next, freeShipping, toFreeShipping, subtotal } = pricing;
   const tierProgress = Math.min(1, count / maxTier.min);
   const shipProgress = Math.min(1, subtotal / FREE_SHIPPING_FROM);
@@ -37,9 +39,9 @@ export default function OrderPerks({ pricing, className = "" }) {
           {next ? <FiPercent className="text-amber-600" /> : <FiCheck className="text-emerald-600" />}
           {next
             ? count === 0
-              ? `Земи ${next.need} планери за −${next.pct}%`
-              : `Додај уште ${next.need} ${next.need === 1 ? "планер" : "планери"} за −${next.pct}%`
-            : `Максимален комбо попуст −${pct}%`}
+              ? t("perks.get", { need: next.need, pct: next.pct })
+              : t("perks.addMore", { count: next.need, pct: next.pct })
+            : t("perks.max", { pct })}
         </p>
         <div className="mt-2 h-2 rounded-full bg-white overflow-hidden">
           <div
@@ -48,14 +50,14 @@ export default function OrderPerks({ pricing, className = "" }) {
           />
         </div>
         <p className="mt-1.5 text-xs text-stone-500">
-          {pct > 0 ? `Сега: −${pct}% на планерите` : "Колку повеќе планери, толку поголем попуст – до −40%"}
+          {pct > 0 ? t("perks.now", { pct }) : t("perks.more")}
         </p>
       </div>
 
       <div className="rounded-2xl bg-emerald-50 ring-1 ring-emerald-100 p-4">
         <p className="flex items-center gap-2 text-sm font-semibold text-emerald-900">
           {freeShipping ? <FiCheck className="text-emerald-600" /> : <FiTruck className="text-emerald-700" />}
-          {freeShipping ? "Достава: бесплатна!" : `Уште ${toFreeShipping.toLocaleString("mk-MK")} ден до бесплатна достава`}
+          {freeShipping ? t("perks.freeYes") : t("perks.toFree", { amount: money(toFreeShipping) })}
         </p>
         <div className="mt-2 h-2 rounded-full bg-white overflow-hidden">
           <div
@@ -64,7 +66,7 @@ export default function OrderPerks({ pricing, className = "" }) {
           />
         </div>
         <p className="mt-1.5 text-xs text-stone-500">
-          Бесплатна достава за нарачки над {FREE_SHIPPING_FROM.toLocaleString("mk-MK")} ден
+          {t("perks.freeOver", { amount: money(FREE_SHIPPING_FROM) })}
         </p>
       </div>
     </div>

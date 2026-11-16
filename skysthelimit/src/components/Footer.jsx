@@ -1,8 +1,9 @@
 import { FaFacebookF, FaInstagram, FaEnvelope } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLang } from "../i18n/routing.jsx";
 import logo_skys from '../assets/logo_skys.webp';
 
 export default function Footer() {
+  const { t } = useLang();
   return (
     <footer className="relative w-full bg-[#07142b] overflow-hidden py-12 mt-auto">
 
@@ -20,19 +21,19 @@ export default function Footer() {
           </Link>
 
           <p className="w-[150px] md:w-[250px] text-sm text-neutral-200 mt-2 font-light">
-            Be the Best Version of Yourself.
+            {t("footer.tagline")}
           </p>
         </div>
 
         <div className="text-center sm:text-left">
-          <h3 className="text-lg font-semibold text-gray-300 mb-2">Информации</h3>
+          <h3 className="text-lg font-semibold text-gray-300 mb-2">{t("footer.info")}</h3>
           <ul className="text-gray-200 space-y-1">
             <li>
               <Link
                 to="/about-us"
                 className="hover:text-amber-300 transition-colors duration-300"
               >
-                За нас
+                {t("footer.about")}
               </Link>
             </li>
             <li>
@@ -40,7 +41,7 @@ export default function Footer() {
                 to="/contact"
                 className="hover:text-amber-300 transition-colors duration-300"
               >
-                Контакт
+                {t("footer.contact")}
               </Link>
             </li>
             <li>
@@ -48,7 +49,7 @@ export default function Footer() {
                 to="/delivery"
                 className="hover:text-amber-300 transition-colors duration-300"
               >
-                Испорака, Враќање, Замена
+                {t("footer.delivery")}
               </Link>
             </li>
           </ul>
@@ -83,7 +84,7 @@ export default function Footer() {
       </div>
 
       <div className="relative mt-10 border-t border-white/10 pt-4 text-center text-sm text-gray-200 font-light">
-        © {new Date().getFullYear()} Sky’s the Limit. Сите права се задржани.
+        © {new Date().getFullYear()} Sky’s the Limit. {t("footer.rights")}
       </div>
     </footer>
   );

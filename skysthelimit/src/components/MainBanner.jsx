@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import allPlanners from "../data/planners-data";
 
 const planners = allPlanners.filter((p) => !p.hideInBanner);
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLang } from "../i18n/routing.jsx";
 
 export default function MainBanner() {
   const navigate = useNavigate();
+  const { loc } = useLang();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -68,7 +69,7 @@ export default function MainBanner() {
               key={planner.id}
               src={planner.bannerImg}
               fetchPriority="high"
-              alt={planner.title}
+              alt={loc(planner).title}
               width={isCenter ? 260 : 220}
               onClick={() => navigate(`/product/${planner.id}`)}
               className="absolute transition-all duration-700 ease-in-out cursor-pointer hover:scale-105 "

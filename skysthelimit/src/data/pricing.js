@@ -2,11 +2,11 @@ import planners from "./planners-data.js";
 import { DELIVERY_COST, FREE_SHIPPING_FROM } from "./delivery.js";
 
 export const BUNDLE_TIERS = [
-  { min: 2, pct: 15 },
-  { min: 3, pct: 20 },
+  { min: 2, pct: 10 },
+  { min: 3, pct: 15 },
   { min: 5, pct: 25 },
   { min: 6, pct: 30 },
-  { min: 8, pct: 40 },
+  { min: 9, pct: 40 },
 ];
 
 const plannerIds = new Set(planners.map((p) => p.id));
@@ -34,7 +34,7 @@ export function bundleUnitPrice(p, count) {
   const now = currentPrice(p);
   const pct = tierFor(count);
   if (!isBundleEligible(p) || pct === 0) return now;
-  return Math.min(now, round10(regularPrice(p) * (1 - pct / 100)));
+  return round10(now * (1 - pct / 100));
 }
 
 export function priceOrder(items) {

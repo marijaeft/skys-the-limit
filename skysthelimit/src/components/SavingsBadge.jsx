@@ -1,5 +1,8 @@
+import { useLang } from "../i18n/routing.jsx";
+
 /** Subtle "you save" note. Shows nothing when there are no savings. */
 export default function SavingsBadge({ pricing, className = "" }) {
+  const { t, money } = useLang();
   const { savings } = pricing;
   if (savings <= 0) return null;
 
@@ -7,8 +10,8 @@ export default function SavingsBadge({ pricing, className = "" }) {
     <p
       className={`flex items-baseline justify-between gap-3 rounded-xl bg-emerald-50 px-3 py-2 text-sm text-emerald-800 ${className}`}
     >
-      <span>🎉 Заштедуваш</span>
-      <span className="font-semibold whitespace-nowrap">{savings.toLocaleString("mk-MK")} ден</span>
+      <span>{t("cart.savings")}</span>
+      <span className="font-semibold whitespace-nowrap">{money(savings)}</span>
     </p>
   );
 }

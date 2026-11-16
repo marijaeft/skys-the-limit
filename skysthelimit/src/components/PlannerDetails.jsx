@@ -1,32 +1,48 @@
 import planners from "../data/planners-data.js";
 import gifts from "../data/Combo.js";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { Link, useLang } from "../i18n/routing.jsx";
+import RichText from "../i18n/RichText.jsx";
 import { useState, useEffect, useRef } from "react";
-import { addToCart } from "../data/Cart.js";
+import { getCart, setQuantity as setCartQuantity } from "../data/Cart.js";
 import { FiShoppingBag, FiTruck, FiCheck, FiChevronLeft, FiChevronRight, FiX } from "react-icons/fi";
 import { GiButterfly } from "react-icons/gi";
 import Recommendations from "./Recommendations.jsx";
 import { discountPercent } from "./ProductCard.jsx";
 import { DELIVERY_COST, FREE_SHIPPING_FROM } from '../data/delivery.js';
-import { isBundleEligible } from '../data/pricing.js';
+import { isBundleEligible, bundleUnitPrice, tierFor } from '../data/pricing.js';
 
 const allProducts = [...planners, ...gifts];
 const toNumber = (price) => parseInt(String(price).replace(/\D/g, ""), 10) || 0;
 
 export default function PlannerDetails() {
   const { id } = useParams();
-  const planner = allProducts.find((p) => p.id === parseInt(id, 10));
+  const { t, money, loc } = useLang();
+  const planner = loc(allProducts.find((p) => p.id === parseInt(id, 10)));
   const images = planner?.images ?? [];
 
   const [quantity, setQuantity] = useState(1);
   const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [added, setAdded] = useState(false);
+  const [cart, setCart] = useState(getCart());
   const imgRef = useRef(null);
+
+  // keep in sync with the cart so the price matches what the cart will charge
+  // and show the cart's quantity for this product when it is already in the cart
+  useEffect(() => {
+    const sync = () => {
+      const c = getCart();
+      setCart(c);
+      if (c[id]) setQuantity(c[id]);
+    };
+    window.addEventListener("cartUpdated", sync);
+    return () => window.removeEventListener("cartUpdated", sync);
+  }, [id]);
 
   // Reset when navigating to another product (e.g. from recommendations)
   useEffect(() => {
-    setQuantity(1);
+    setQuantity(getCart()[id] || 1);
     setActiveIndex(0);
     setLightboxIndex(null);
     setAdded(false);
@@ -62,15 +78,26 @@ export default function PlannerDetails() {
   }, [lightboxIndex, images.length]);
 
   if (!planner) {
-    return <p className="text-center text-stone-500 text-lg mt-32">Производот не е пронајден.</p>;
+    return <p className="text-center text-stone-500 text-lg mt-32">{t("product.notFound")}</p>;
   }
 
   const fullPrice = toNumber(planner.price);
   const unitPrice = planner.sale ? toNumber(planner.discountedPrice) : fullPrice;
-  const percent = discountPercent(planner);
+  // same combo rule as the cart: planners already in the cart + the chosen quantity
+  const eligible = isBundleEligible(planner);
+  const plannersInCart = Object.entries(cart).reduce(
+    (n, [pid, q]) => n + (isBundleEligible({ id: Number(pid) }) ? q : 0),
+    0
+  );
+  const inCart = cart[planner.id] || 0;
+  // the cart as it would be with this quantity of this product
+  const comboCount = plannersInCart - (eligible ? inCart : 0) + quantity;
+  const comboPct = eligible ? tierFor(comboCount) : 0;
+  const unitNow = eligible ? bundleUnitPrice(planner, comboCount) : unitPrice;
+  const percent = fullPrice ? Math.round((1 - unitNow / fullPrice) * 100) : discountPercent(planner);
 
   const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) addToCart(planner.id);
+    setCartQuantity(planner.id, quantity);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };
@@ -78,9 +105,9 @@ export default function PlannerDetails() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-20">
       <nav className="text-sm text-stone-500 mb-8">
-        <Link to="/" className="hover:text-stone-900">Почетна</Link>
+        <Link to="/" className="hover:text-stone-900">{t("product.home")}</Link>
         <span className="mx-2">/</span>
-        <Link to="/products" className="hover:text-stone-900">Планери</Link>
+        <Link to="/products" className="hover:text-stone-900">{t("product.planners")}</Link>
         <span className="mx-2">/</span>
         <span className="text-stone-800">{planner.title}</span>
       </nav>
@@ -121,19 +148,27 @@ export default function PlannerDetails() {
 
           <div className="flex items-baseline flex-wrap gap-3 mt-6">
             <span className="text-3xl font-bold text-stone-900">
-              {(unitPrice * quantity).toLocaleString("mk-MK")} ден
+              {money(unitNow * quantity)}
             </span>
             {percent > 0 && (
               <>
                 <span className="text-lg text-stone-400 line-through">
-                  {(fullPrice * quantity).toLocaleString("mk-MK")} ден
+                  {money(fullPrice * quantity)}
                 </span>
                 <span className="rounded-full bg-rose-100 text-rose-700 text-sm font-semibold px-3 py-1">
-                  Заштеди {percent}%
+                  {t("product.save", { percent })}
                 </span>
               </>
             )}
           </div>
+          {comboPct > 0 && (
+            <p className="mt-2 inline-flex items-center gap-2 text-sm text-navy-900">
+              <span className="rounded-full bg-gradient-to-r from-amber-200 to-amber-300 px-2 py-0.5 text-xs font-bold text-navy-950">
+                {t("cart.comboTag", { pct: comboPct })}
+              </span>
+              {t("product.comboIncluded", { count: comboCount })}
+            </p>
+          )}
 
           <div className="flex flex-wrap items-center gap-4 mt-8">
             <div className="flex items-center rounded-full ring-1 ring-stone-300 bg-white">
@@ -141,7 +176,7 @@ export default function PlannerDetails() {
                 onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                 disabled={quantity <= 1}
                 className="w-11 h-12 text-xl text-stone-700 disabled:opacity-30"
-                aria-label="Намали количина"
+                aria-label={t("product.decrease")}
               >
                 −
               </button>
@@ -153,12 +188,12 @@ export default function PlannerDetails() {
                 value={quantity}
                 onChange={(e) => setQuantity(Math.min(100, Math.max(1, parseInt(e.target.value) || 1)))}
                 className="w-10 text-center text-lg outline-none bg-transparent [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none"
-                aria-label="Количина"
+                aria-label={t("product.quantity")}
               />
               <button
                 onClick={() => setQuantity((q) => Math.min(100, q + 1))}
                 className="w-11 h-12 text-xl text-stone-700"
-                aria-label="Зголеми количина"
+                aria-label={t("product.increase")}
               >
                 +
               </button>
@@ -166,19 +201,38 @@ export default function PlannerDetails() {
 
             <button
               onClick={handleAddToCart}
+              disabled={!added && inCart > 0 && inCart === quantity}
               className={`flex-1 min-w-[220px] h-12 flex items-center justify-center gap-2 rounded-full text-white font-semibold shadow-lg transition-all duration-300 active:scale-[0.97] ${
-                added ? "bg-emerald-600" : "bg-navy-950 hover:bg-navy-900 hover:shadow-xl"
+                added || (inCart > 0 && inCart === quantity)
+                  ? "bg-emerald-600 disabled:cursor-default disabled:active:scale-100"
+                  : "bg-navy-950 hover:bg-navy-900 hover:shadow-xl"
               }`}
             >
-              {added ? <FiCheck size={20} /> : <FiShoppingBag size={20} />}
-              <span>{added ? "Додадено во кошничка" : "Додади во кошничка"}</span>
+              {added || (inCart > 0 && inCart === quantity) ? <FiCheck size={20} /> : <FiShoppingBag size={20} />}
+              <span>
+                {added
+                  ? t("product.added")
+                  : inCart === 0
+                  ? t("product.add")
+                  : inCart === quantity
+                  ? t("product.inCart")
+                  : t("product.update")}
+              </span>
             </button>
           </div>
+
+          {inCart > 0 && (
+            <p className="mt-3 text-sm text-stone-600">
+              <Link to="/cart" className="underline decoration-stone-300 underline-offset-2 hover:text-navy-950">
+                {t("product.inCartNote", { count: inCart })}
+              </Link>
+            </p>
+          )}
 
           <div className="flex items-center gap-3 mt-5 text-sm text-stone-600">
             <FiTruck className="text-amber-600" size={18} />
             <span>
-              Достава {DELIVERY_COST} ден · <span className="font-semibold text-emerald-700">бесплатна над {FREE_SHIPPING_FROM.toLocaleString("mk-MK")} ден</span>
+              <RichText k="product.delivery" values={{ cost: money(DELIVERY_COST), amount: money(FREE_SHIPPING_FROM) }} b="font-semibold text-emerald-700" />
             </span>
           </div>
 
@@ -187,16 +241,16 @@ export default function PlannerDetails() {
               to="/gifts"
               className="group mt-4 flex items-center gap-3 rounded-2xl bg-navy-50 ring-1 ring-navy-100 px-4 py-3 text-sm text-navy-950 hover:bg-navy-100 transition"
             >
-              <span className="rounded-full bg-gradient-to-r from-amber-200 to-amber-300 px-2.5 py-1 text-xs font-bold">до −40%</span>
+              <span className="rounded-full bg-gradient-to-r from-amber-200 to-amber-300 px-2.5 py-1 text-xs font-bold">{t("product.comboTag")}</span>
               <span className="flex-1">
-                <span className="font-semibold">Комбо попуст:</span> земи 2 или повеќе планери и заштеди повеќе.
+                <RichText k="product.comboText" />
               </span>
               <FiChevronRight className="shrink-0 transition-transform group-hover:translate-x-0.5" />
             </Link>
           )}
 
           <div className="mt-10 rounded-3xl bg-[#fbf7f2] p-6 sm:p-8">
-            <h2 className="text-xs font-semibold uppercase tracking-[0.25em] text-amber-700 mb-4">Карактеристики</h2>
+            <h2 className="text-xs font-semibold uppercase tracking-[0.25em] text-amber-700 mb-4">{t("product.characteristics")}</h2>
             <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-2 text-stone-700">
               {planner.characteristics.map((c, idx) => (
                 <li key={idx} className="flex items-center gap-2">
@@ -208,7 +262,7 @@ export default function PlannerDetails() {
           </div>
 
           <div className="mt-8">
-            <h2 className="text-xs font-semibold uppercase tracking-[0.25em] text-amber-700 mb-4">Содржина</h2>
+            <h2 className="text-xs font-semibold uppercase tracking-[0.25em] text-amber-700 mb-4">{t("product.contents")}</h2>
             <ul className="space-y-3 text-stone-700 leading-relaxed">
               {planner.content.map((item, idx) => (
                 <li key={idx} className="flex items-start gap-3">
@@ -231,7 +285,7 @@ export default function PlannerDetails() {
           <button
             className="absolute top-5 right-5 text-white/80 hover:text-white"
             onClick={() => setLightboxIndex(null)}
-            aria-label="Затвори"
+            aria-label={t("product.close")}
           >
             <FiX size={28} />
           </button>
@@ -246,7 +300,7 @@ export default function PlannerDetails() {
               <button
                 onClick={() => setLightboxIndex(lightboxIndex - 1)}
                 className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 text-stone-900 shadow"
-                aria-label="Претходна"
+                aria-label={t("product.prev")}
               >
                 <FiChevronLeft size={24} />
               </button>
@@ -255,7 +309,7 @@ export default function PlannerDetails() {
               <button
                 onClick={() => setLightboxIndex(lightboxIndex + 1)}
                 className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 text-stone-900 shadow"
-                aria-label="Следна"
+                aria-label={t("product.next")}
               >
                 <FiChevronRight size={24} />
               </button>

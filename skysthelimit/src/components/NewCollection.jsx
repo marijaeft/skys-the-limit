@@ -3,14 +3,16 @@ import collection from "../data/NewCollection.js";
 import ProductCard from "./ProductCard.jsx";
 import Reveal from "./Reveal.jsx";
 import { FiCalendar, FiFeather, FiStar } from "react-icons/fi";
+import { useLang } from "../i18n/routing.jsx";
 
 const highlights = [
-  { icon: FiCalendar, text: "Календар за 2027 и 2028" },
-  { icon: FiStar, text: "Златен тисок и тврди корици" },
-  { icon: FiFeather, text: "Нов bullet journal – Cinnamon" },
+  { icon: FiCalendar, key: "home.h1" },
+  { icon: FiStar, key: "home.h2" },
+  { icon: FiFeather, key: "home.h3" },
 ];
 
 export default function NewCollection() {
+  const { t } = useLang();
   const products = collection
     .map((id) => planners.find((p) => p.id === id))
     .filter(Boolean);
@@ -25,24 +27,23 @@ export default function NewCollection() {
       <div className="relative max-w-6xl mx-auto">
         <Reveal className="text-center max-w-2xl mx-auto">
           <span className="inline-flex items-center gap-2 rounded-full border border-amber-300/40 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-amber-200 backdrop-blur">
-            Нова колекција · 2027
+            {t("home.eyebrow")}
           </span>
           <h2 className="font-serif text-5xl sm:text-7xl mt-6 leading-[1.02] text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-amber-300 to-amber-100">
-            Повеќе од обичен планер.
+            {t("home.title")}
           </h2>
           <p className="text-white/70 mt-6 leading-relaxed">
-            Merlot, Dusk и Cinnamon – три нови дневници за година во која ќе бидеш најдобрата верзија од себе.
-            Сега по промотивна цена.
+            {t("home.text")}
           </p>
 
           <ul className="mt-8 flex flex-wrap justify-center gap-3">
-            {highlights.map(({ icon: Icon, text }) => (
+            {highlights.map(({ icon: Icon, key }) => (
               <li
-                key={text}
+                key={key}
                 className="flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 text-sm text-white/80 ring-1 ring-white/10 backdrop-blur"
               >
                 <span className="text-amber-300">{Icon({})}</span>
-                {text}
+                {t(key)}
               </li>
             ))}
           </ul>
@@ -50,7 +51,7 @@ export default function NewCollection() {
 
         <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {products.map((p, i) => (
-            <ProductCard key={p.id} product={p} badge="Ново 2027" dark delay={i * 120} />
+            <ProductCard key={p.id} product={p} badge={t("badge.new2027")} dark delay={i * 120} />
           ))}
         </div>
       </div>

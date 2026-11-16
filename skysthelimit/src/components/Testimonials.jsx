@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
-import testimonials from "../data/testimonials-data.js";
+import { useLang } from "../i18n/routing.jsx";
 
 export default function Testimonials() {
+  const { t } = useLang();
+  const testimonials = t("testimonials", { returnObjects: true });
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % testimonials.length);
+      setIndex((prev) => prev + 1);
     }, 5000);
     return () => clearInterval(timer);
   }, []);
 
-  const testimonial = testimonials[index];
+  const testimonial = testimonials[index % testimonials.length];
 
   return (
     <div className="flex justify-center items-center min-h-[150px] px-4 sm:px-6 md:px-8 py-2 -mt-16">

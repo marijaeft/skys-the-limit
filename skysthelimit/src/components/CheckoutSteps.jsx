@@ -1,9 +1,11 @@
 import { FiCheck } from "react-icons/fi";
+import { useLang } from "../i18n/routing.jsx";
 
-const STEPS = ["Кошничка", "Податоци", "Потврда"];
+const STEPS = ["steps.cart", "steps.details", "steps.confirm"];
 
 /** Small progress indicator for the checkout flow. `current` is 0-based. */
 export default function CheckoutSteps({ current = 0 }) {
+  const { t } = useLang();
   return (
     <ol className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 text-xs sm:text-sm mb-8 max-w-full">
       {STEPS.map((label, i) => {
@@ -28,7 +30,7 @@ export default function CheckoutSteps({ current = 0 }) {
                 {done ? <FiCheck size={12} /> : i + 1}
               </span>
               {/* on phones only the current step shows its name */}
-              <span className={active ? "pr-1 sm:pr-0" : "hidden sm:inline"}>{label}</span>
+              <span className={active ? "pr-1 sm:pr-0" : "hidden sm:inline"}>{t(label)}</span>
             </span>
             {i < STEPS.length - 1 && <span className="h-px w-3 sm:w-8 bg-stone-300" />}
           </li>

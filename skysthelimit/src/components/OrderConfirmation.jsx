@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { CheckCircle } from 'lucide-react';
 import { clearCart } from "../data/Cart";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLang } from '../i18n/routing.jsx';
+import RichText from '../i18n/RichText.jsx';
 
 export default function OrderConfirmation() {
     const navigate = useNavigate();
+    const { t } = useLang();
 
     useEffect(() => {
         clearCart();
@@ -21,14 +23,14 @@ export default function OrderConfirmation() {
                 <div className="flex justify-center mb-4 text-yellow-500">
                     <CheckCircle className="w-12 h-12" />
                 </div>
-                <h1 className="text-3xl font-bold text-gray-800 mb-2">Нарачката е испратена!</h1>
+                <h1 className="text-3xl font-bold text-gray-800 mb-2">{t("confirmation.title")}</h1>
                 <p className="text-gray-600 mb-4">
-                    Вашата нарачка е успешно испратена до <strong>Sky's The Limit</strong>.
+                    <RichText k="confirmation.sent" b="font-bold" />
                 </p>
                 <p className="text-gray-600 mb-6">
-                    Очекувајте потврда на вашиот мејл за нејзино испраќање.
+                    {t("confirmation.expect")}
                 </p>
-                <p className="text-lg font-semibold text-gray-800">Ви благодариме!</p>
+                <p className="text-lg font-semibold text-gray-800">{t("confirmation.thanks")}</p>
             </div>
         </div>
     );

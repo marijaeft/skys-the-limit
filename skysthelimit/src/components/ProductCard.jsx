@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLang } from "../i18n/routing.jsx";
 import { FiShoppingBag } from "react-icons/fi";
 import { addToCart } from "../data/Cart.js";
 import Reveal from "./Reveal.jsx";
@@ -17,8 +17,10 @@ export function discountPercent(product) {
  * Shared product card used across the shop.
  * `to` overrides the detail link (cards live under /card/:id).
  */
-export default function ProductCard({ product, to, image, badge, dark = false, delay = 0, compact = false }) {
+export default function ProductCard({ product: rawProduct, to, image, badge, dark = false, delay = 0, compact = false }) {
   const navigate = useNavigate();
+  const { t, money, loc } = useLang();
+  const product = loc(rawProduct);
   const href = to || `/product/${product.id}`;
   const percent = discountPercent(product);
   const onSale = percent > 0;
@@ -62,11 +64,11 @@ export default function ProductCard({ product, to, image, badge, dark = false, d
         <button
           type="button"
           onClick={handleAdd}
-          aria-label={`Додади ${product.title} во кошничка`}
+          aria-label={t("product.addToCartAria", { title: product.title })}
           className={`absolute bottom-3 right-3 flex items-center gap-2 rounded-full bg-white/95 active:scale-95 text-navy-950 shadow-lg text-sm font-semibold ${compact ? "h-10 w-10 justify-center sm:h-auto sm:w-auto sm:px-4 sm:py-2" : "px-4 py-2"} transition-all duration-300 hover:bg-navy-950 hover:text-white md:opacity-0 md:translate-y-2 md:group-hover:opacity-100 md:group-hover:translate-y-0`}
         >
           <FiShoppingBag size={16} />
-          <span className={compact ? "hidden sm:inline" : ""}>Во кошничка</span>
+          <span className={compact ? "hidden sm:inline" : ""}>{t("product.addToCart")}</span>
         </button>
       </div>
 
@@ -78,15 +80,15 @@ export default function ProductCard({ product, to, image, badge, dark = false, d
           {onSale ? (
             <>
               <span className={`text-lg font-bold ${dark ? "text-amber-300" : "text-rose-600"}`}>
-                {product.discountedPrice}
+                {money(toNumber(product.discountedPrice))}
               </span>
               <span className={`text-sm line-through ${dark ? "text-white/50" : "text-stone-400"}`}>
-                {product.price}
+                {money(toNumber(product.price))}
               </span>
             </>
           ) : (
             <span className={`text-lg font-bold ${dark ? "text-amber-300" : "text-stone-900"}`}>
-              {product.price}
+              {money(toNumber(product.price))}
             </span>
           )}
         </div>
