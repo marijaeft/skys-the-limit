@@ -326,7 +326,7 @@ const planners = [
                 BabyBookImg3
             ],
         price: "1150 ден",
-        sale: false,
+        sale: true,
         discountedPrice: "950 ден"
 
     },
@@ -372,7 +372,7 @@ const planners = [
                 HogwPlannerImg3
             ],
         price: "1200 ден",
-        sale: false,
+        sale: true,
         discountedPrice: "650 ден"
     },
     {
@@ -426,7 +426,7 @@ const planners = [
                 SkysPlannerImg3
             ],
         price: "1100 ден",
-        sale: false,
+        sale: true,
         discountedPrice: "690 ден"
     },
     {
@@ -480,7 +480,7 @@ const planners = [
                 SkysPlannerImg3
             ],
         price: "1100 ден",
-        sale: false,
+        sale: true,
         discountedPrice: "690 ден"
     },
     {
@@ -508,7 +508,7 @@ const planners = [
                 WorkPlannerImg3
             ],
         price: "950 ден",
-        sale: false,
+        sale: true,
         discountedPrice: "400 ден",
         hideInBanner: true
     },
