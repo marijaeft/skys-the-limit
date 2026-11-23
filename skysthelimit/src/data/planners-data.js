@@ -267,7 +267,7 @@ const planners = [
                 RecipeBookImg3
             ],
         price: "750 ден",
-        sale: true,
+        sale: false,
         discountedPrice: "690 ден"
     },
 
@@ -326,7 +326,7 @@ const planners = [
                 BabyBookImg3
             ],
         price: "1150 ден",
-        sale: true,
+        sale: false,
         discountedPrice: "950 ден"
 
     },
@@ -372,7 +372,7 @@ const planners = [
                 HogwPlannerImg3
             ],
         price: "1200 ден",
-        sale: true,
+        sale: false,
         discountedPrice: "650 ден"
     },
     {
@@ -426,7 +426,7 @@ const planners = [
                 SkysPlannerImg3
             ],
         price: "1100 ден",
-        sale: true,
+        sale: false,
         discountedPrice: "690 ден"
     },
     {
@@ -480,7 +480,7 @@ const planners = [
                 SkysPlannerImg3
             ],
         price: "1100 ден",
-        sale: true,
+        sale: false,
         discountedPrice: "690 ден"
     },
     {
@@ -508,7 +508,7 @@ const planners = [
                 WorkPlannerImg3
             ],
         price: "950 ден",
-        sale: true,
+        sale: false,
         discountedPrice: "400 ден",
         hideInBanner: true
     },
@@ -531,7 +531,7 @@ const planners = [
                 Skys2027Page1
             ],
         price: "1200 ден",
-        sale: true,
+        sale: false,
         discountedPrice: "1090 ден"
     },
     {
@@ -553,7 +553,7 @@ const planners = [
                 Skys2027Page1
             ],
         price: "1200 ден",
-        sale: true,
+        sale: false,
         discountedPrice: "1090 ден"
     },
     {
@@ -581,7 +581,7 @@ const planners = [
                 CinnamonLifestyle
             ],
         price: "970 ден",
-        sale: true,
+        sale: false,
         discountedPrice: "850 ден"
     },
 ]

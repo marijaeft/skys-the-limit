@@ -32,7 +32,7 @@ const en = {
   home: {
     eyebrow: "New collection · 2027",
     title: "More than just a planner.",
-    text: "Merlot, Dusk and Cinnamon – three new journals for a year in which you become the best version of yourself. Now at a launch price.",
+    text: "Merlot, Dusk and Cinnamon – three new journals for a year in which you become the best version of yourself. Get more and save up to 40% with the combo discount.",
     h1: "2027 and 2028 calendar",
     h2: "Gold foil and hard covers",
     h3: "New bullet journal – Cinnamon",
@@ -50,6 +50,9 @@ const en = {
     plannersTitle: "Planners and journals",
     saleEyebrow: "Sale",
     saleTitle: "Products on sale",
+    saleEmptyTitle: "Our discounts are in the combo",
+    saleEmptyText: "The more planners you get, the bigger the discount – up to −40%. Build your combo and see the price straight away.",
+    saleEmptyButton: "Build your combo",
     cardsEyebrow: "Greeting cards",
     cardsTitle: "For moments worth celebrating",
     cardsText: "Unique greeting cards with thoughtful designs that make every gift even more special.",
