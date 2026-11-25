@@ -3,11 +3,13 @@ import planners from "../data/planners-data.js";
 import { sortForDisplay } from "../data/displayOrder.js";
 import { BUNDLE_TIERS } from "../data/pricing.js";
 import ProductCard from "./ProductCard.jsx";
+import Countdown, { useCountdown } from "./Countdown.jsx";
 import { Link, useLang } from "../i18n/routing.jsx";
 import { FiArrowRight } from "react-icons/fi";
 
 export default function DiscountedItems() {
   const { t } = useLang();
+  const { over } = useCountdown();
   const discounted = sortForDisplay(planners.filter((planner) => planner.sale === true));
 
   // nothing on sale: point people to the combo discount instead of an empty page
@@ -46,7 +48,12 @@ export default function DiscountedItems() {
     <section className="w-full max-w-7xl mx-auto px-4 pt-28 sm:pt-32 pb-20">
       <Reveal className="text-center mb-12">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-rose-600">{t("shop.saleEyebrow")}</p>
-        <h1 className="font-serif text-4xl sm:text-5xl text-stone-900 mt-3">{t("shop.saleTitle")}</h1>
+        <h1 className="font-serif text-4xl sm:text-5xl text-stone-900 mt-3">{over ? t("shop.saleTitle") : t("bf.saleTitle")}</h1>
+        {!over && (
+          <div className="mt-6">
+            <Countdown dark={false} />
+          </div>
+        )}
       </Reveal>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {discounted.map((p, i) => (

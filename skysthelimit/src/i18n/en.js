@@ -29,6 +29,21 @@ const en = {
 
   badge: { new2027: "New 2027", new: "New" },
 
+  bf: {
+    eyebrow: "Black Friday Edition",
+    title: "Everything is on sale.",
+    text: "Every planner and greeting card at a lower price – plus the combo discount up to <b>−40%</b> on top. Ends on Sunday.",
+    endsIn: "Ends in",
+    days: "days",
+    hours: "hrs",
+    minutes: "min",
+    seconds: "sec",
+    shop: "Shop before it ends",
+    combo: "Build a combo",
+    saleTitle: "Black Friday deals",
+    chip: "Ends Sunday at midnight",
+  },
+
   home: {
     eyebrow: "New collection · 2027",
     title: "More than just a planner.",

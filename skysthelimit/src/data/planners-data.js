@@ -134,7 +134,7 @@ const planners = [
                 travelPlannerImg3
             ],
         price: "750 ден",
-        sale: false,
+        sale: true,
         discountedPrice: "690 ден"
 
     },
@@ -187,7 +187,7 @@ const planners = [
                 WeddingPlannerImg2
             ],
         price: "850 ден",
-        sale: false,
+        sale: true,
         discountedPrice: "760 ден"
     },
 
@@ -239,7 +239,7 @@ const planners = [
                 WeddingPlannerImg2
             ],
         price: "850 ден",
-        sale: false,
+        sale: true,
         discountedPrice: "760 ден"
     },
     {
@@ -267,7 +267,7 @@ const planners = [
                 RecipeBookImg3
             ],
         price: "750 ден",
-        sale: false,
+        sale: true,
         discountedPrice: "690 ден"
     },
 
@@ -301,7 +301,7 @@ const planners = [
                 AcademicPlannerImg3
             ],
         price: "750 ден",
-        sale: false,
+        sale: true,
         discountedPrice: "690 ден"
     },
     {
@@ -531,7 +531,7 @@ const planners = [
                 Skys2027Page1
             ],
         price: "1200 ден",
-        sale: false,
+        sale: true,
         discountedPrice: "1090 ден"
     },
     {
@@ -553,7 +553,7 @@ const planners = [
                 Skys2027Page1
             ],
         price: "1200 ден",
-        sale: false,
+        sale: true,
         discountedPrice: "1090 ден"
     },
     {
@@ -581,7 +581,7 @@ const planners = [
                 CinnamonLifestyle
             ],
         price: "970 ден",
-        sale: false,
+        sale: true,
         discountedPrice: "850 ден"
     },
 ]

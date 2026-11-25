@@ -22,22 +22,22 @@ const commonCharacteristics = [
 ];
 
 const cards = [
-    { id: 30, title: "Со тебе не гледам саат", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card4, price: "80 ден", sale: false, discountedPrice: "50 ден" },
-    { id: 31, title: "За најдобрата мајка", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card5, price: "80 ден", sale: false, discountedPrice: "50 ден" },
-    { id: 32, title: "Дома си е дома", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card6, price: "80 ден", sale: false, discountedPrice: "50 ден" },
-    { id: 33, title: "На муабет", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card7, price: "80 ден", sale: false, discountedPrice: "50 ден" },
-    { id: 34, title: "Животот е прекрасен со тебе", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card8, price: "80 ден", sale: false, discountedPrice: "50 ден" },
-    { id: 35, title: "Dancing in the kitchen", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card10, price: "80 ден", sale: false, discountedPrice: "50 ден" },
-    { id: 36, title: "Happy Birthday", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card11, price: "80 ден", sale: false, discountedPrice: "50 ден" },
-    { id: 37, title: "Тивка љубов", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card12, price: "80 ден", sale: false, discountedPrice: "50 ден" },
-    { id: 38, title: "Пролет", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card13, price: "80 ден", sale: false, discountedPrice: "50 ден" },
-    { id: 39, title: "Честитки за новиот дом!", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card14, price: "80 ден", sale: false, discountedPrice: "50 ден" },
-    { id: 40, title: "Време за славење", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card15, price: "80 ден", sale: false, discountedPrice: "50 ден" },
-    { id: 41, title: "Мирис на спомени", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card2, price: "80 ден", sale: false, discountedPrice: "50 ден" },
-    { id: 42, title: "Боите на љубовта", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card3, price: "80 ден", sale: false, discountedPrice: "50 ден" },
-    { id: 43, title: "За најдобрата мајка", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card16, price: "80 ден", sale: false, discountedPrice: "50 ден" },
-    { id: 44, title: "Заедно до крајот", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card1, price: "80 ден", sale: false, discountedPrice: "50 ден" },
-    { id: 45, title: "Nice Bum", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card9, price: "80 ден", sale: false, discountedPrice: "50 ден" },
+    { id: 30, title: "Со тебе не гледам саат", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card4, price: "80 ден", sale: true, discountedPrice: "50 ден" },
+    { id: 31, title: "За најдобрата мајка", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card5, price: "80 ден", sale: true, discountedPrice: "50 ден" },
+    { id: 32, title: "Дома си е дома", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card6, price: "80 ден", sale: true, discountedPrice: "50 ден" },
+    { id: 33, title: "На муабет", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card7, price: "80 ден", sale: true, discountedPrice: "50 ден" },
+    { id: 34, title: "Животот е прекрасен со тебе", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card8, price: "80 ден", sale: true, discountedPrice: "50 ден" },
+    { id: 35, title: "Dancing in the kitchen", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card10, price: "80 ден", sale: true, discountedPrice: "50 ден" },
+    { id: 36, title: "Happy Birthday", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card11, price: "80 ден", sale: true, discountedPrice: "50 ден" },
+    { id: 37, title: "Тивка љубов", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card12, price: "80 ден", sale: true, discountedPrice: "50 ден" },
+    { id: 38, title: "Пролет", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card13, price: "80 ден", sale: true, discountedPrice: "50 ден" },
+    { id: 39, title: "Честитки за новиот дом!", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card14, price: "80 ден", sale: true, discountedPrice: "50 ден" },
+    { id: 40, title: "Време за славење", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card15, price: "80 ден", sale: true, discountedPrice: "50 ден" },
+    { id: 41, title: "Мирис на спомени", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card2, price: "80 ден", sale: true, discountedPrice: "50 ден" },
+    { id: 42, title: "Боите на љубовта", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card3, price: "80 ден", sale: true, discountedPrice: "50 ден" },
+    { id: 43, title: "За најдобрата мајка", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card16, price: "80 ден", sale: true, discountedPrice: "50 ден" },
+    { id: 44, title: "Заедно до крајот", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card1, price: "80 ден", sale: true, discountedPrice: "50 ден" },
+    { id: 45, title: "Nice Bum", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card9, price: "80 ден", sale: true, discountedPrice: "50 ден" },
 ];
 
 export default cards;

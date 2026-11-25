@@ -18,10 +18,10 @@ export default function NewCollection() {
     .filter(Boolean);
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#07142b] via-[#0c1f3f] to-[#081530] py-24 px-4">
+    <section className="relative overflow-hidden bg-gradient-to-b from-[#1a070c] via-[#3a0f1b] to-[#24090f] py-24 px-4">
       {/* navy glows with a touch of gold */}
-      <div className="pointer-events-none absolute -top-40 -left-32 h-[30rem] w-[30rem] rounded-full bg-[#1d4e89]/45 blur-3xl" />
-      <div className="pointer-events-none absolute top-1/3 -right-40 h-[32rem] w-[32rem] rounded-full bg-[#1a5f8f]/30 blur-3xl" />
+      <div className="pointer-events-none absolute top-24 -left-32 h-[30rem] w-[30rem] rounded-full bg-rose-700/25 blur-3xl" />
+      <div className="pointer-events-none absolute top-1/3 -right-40 h-[32rem] w-[32rem] rounded-full bg-[#7a1f33]/30 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-48 left-1/3 h-[26rem] w-[26rem] rounded-full bg-amber-400/15 blur-3xl" />
 
       <div className="relative max-w-6xl mx-auto">
