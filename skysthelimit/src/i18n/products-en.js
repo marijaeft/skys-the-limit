@@ -147,6 +147,22 @@ const productsEn = {
   4: recipe,
   5: academic,
   6: baby,
+  14: {
+    title: "My Pregnancy Journal",
+    subtitle: "Capture every week of your pregnancy!",
+    characteristics: ["Available in Macedonian only", "Hard cover", "Gold spiral"],
+    content: [
+      "A dedicated page for every week of your pregnancy",
+      "What is happening with your baby that week",
+      "What happened this week",
+      "Thoughts and feelings",
+      "Appetite and cravings",
+      "Sleep and energy",
+      "Check-ups",
+      "Notes",
+      "Date and weight tracking",
+    ],
+  },
   7: {
     title: "Sky’s The Limit 2026",
     subtitle: "A magical journal for planning, organising and personal growth!",

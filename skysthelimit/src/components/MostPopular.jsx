@@ -16,7 +16,7 @@ export default function MostPopular() {
       </Reveal>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl mx-auto">
         {popularPlanners.map((p, i) => (
-          <ProductCard delay={(i % 4) * 90} key={p.id} product={p} />
+          <ProductCard delay={(i % 4) * 90} key={p.id} product={p} image={p.bannerImg} imageBg="bg-gradient-to-b from-[#ddd5ca] to-[#c9bdae]" />
         ))}
       </div>
     </section>

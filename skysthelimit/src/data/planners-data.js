@@ -58,6 +58,9 @@ import Skys2027Page1 from "../assets/skys-2027-page1.webp"
 import Skys2027Page2 from "../assets/skys-2027-page2.webp"
 import Skys2027Page3 from "../assets/skys-2027-page3.webp"
 import Skys2027Page4 from "../assets/skys-2027-page4.webp"
+import PregnancyJournalImg1 from "../assets/pregnancy-journal-1.webp"
+import PregnancyJournalImg2 from "../assets/pregnancy-journal-2.webp"
+import PregnancyJournalBanner from "../assets/pregnancy-journal-banner.webp"
 
 // Содржина на Sky's The Limit 2027 (иста како 2026, без листа на контакти, со календар за 2027 и 2028)
 const skys2027Content = [
@@ -102,6 +105,39 @@ const skys2027Characteristics = [
 ]
 
 const planners = [
+    {
+        id: 14,
+        title: "Дневник за бременост - My Pregnancy Journal",
+        subtitle: "Запишете ја секоја недела од вашата бременост!",
+        characteristics: [
+            "Достапен само на македонски",
+            "Тврда корица",
+            "Златни спирали"
+        ],
+        content:
+            [
+                "Посебна страна за секоја недела од бременоста",
+                "Што се случува со бебето во таа недела",
+                "Што се случи оваа недела",
+                "Мисли и чувства",
+                "Апетит и желби",
+                "Сон и енергија",
+                "Прегледи",
+                "Белешки",
+                "Следење на датум и тежина"
+            ],
+        bannerImg: PregnancyJournalBanner,
+        cardImage: PregnancyJournalBanner,
+        images:
+            [
+                PregnancyJournalBanner,
+                PregnancyJournalImg2,
+                PregnancyJournalImg1
+            ],
+        price: "1100 ден",
+        sale: true,
+        discountedPrice: "950 ден"
+    },
     {
         id: 1,
         title: "Планер за патување",

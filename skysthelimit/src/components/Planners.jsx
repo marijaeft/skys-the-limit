@@ -17,7 +17,6 @@ export default function Planners() {
           <ProductCard delay={(i % 4) * 90}
             key={planner.id}
             product={planner}
-            image={planner.collection === 2027 ? planner.cardImage : planner.images[0]}
             badge={planner.collection === 2027 ? t("badge.new2027") : undefined}
           />
         ))}

@@ -17,7 +17,7 @@ export function discountPercent(product) {
  * Shared product card used across the shop.
  * `to` overrides the detail link (cards live under /card/:id).
  */
-export default function ProductCard({ product: rawProduct, to, image, badge, dark = false, delay = 0, compact = false }) {
+export default function ProductCard({ product: rawProduct, to, image, imageBg, badge, dark = false, delay = 0, compact = false }) {
   const navigate = useNavigate();
   const { t, money, loc } = useLang();
   const product = loc(rawProduct);
@@ -40,12 +40,12 @@ export default function ProductCard({ product: rawProduct, to, image, badge, dar
           : "bg-white ring-1 ring-stone-200/70 shadow-sm hover:shadow-xl"
       }`}
     >
-      <div className={`relative aspect-square overflow-hidden ${dark ? "bg-white/5" : "bg-stone-50"}`}>
+      <div className={`relative aspect-square overflow-hidden ${imageBg || (dark ? "bg-white/5" : "bg-stone-50")}`}>
         <img
-          src={image || product.cardImage || product.images?.[0]}
+          src={image || product.bannerImg || product.cardImage || product.images?.[0]}
           alt={product.title}
           loading="lazy"
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${imageBg ? "drop-shadow-[0_14px_18px_rgba(60,45,30,0.28)]" : ""}`}
         />
 
         <div className="absolute top-3 left-3 flex flex-col gap-1.5 items-start">
