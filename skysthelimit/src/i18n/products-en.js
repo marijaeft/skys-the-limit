@@ -262,6 +262,14 @@ const productsEn = {
   43: { title: "For the best mum", subtitle: "Greeting card", characteristics: cardCharacteristics },
   44: { title: "Together to the end", subtitle: "Greeting card", characteristics: cardCharacteristics },
   45: { title: "Nice Bum", subtitle: "Greeting card", characteristics: cardCharacteristics },
+  46: { title: "Winter's Tale", subtitle: "Greeting card", characteristics: cardCharacteristics },
+  47: { title: "When We Were Kids", subtitle: "Greeting card", characteristics: cardCharacteristics },
+  48: { title: "Rocking Around the Christmas Tree", subtitle: "Greeting card", characteristics: cardCharacteristics },
+  49: { title: "Holiday Morning", subtitle: "Greeting card", characteristics: cardCharacteristics },
+  50: { title: "Ho Ho Ho", subtitle: "Greeting card", characteristics: cardCharacteristics },
+  51: { title: "Happy Holidays", subtitle: "Greeting card", characteristics: cardCharacteristics },
+  52: { title: "Retro", subtitle: "Greeting card", characteristics: cardCharacteristics },
+  53: { title: "Long-Awaited Holidays", subtitle: "Greeting card", characteristics: cardCharacteristics },
 };
 
 export default productsEn;

@@ -14,6 +14,14 @@ import card13 from '../assets/cestitka13.webp';
 import card14 from '../assets/cestitka14.webp';
 import card15 from '../assets/cestitka15.webp';
 import card16 from '../assets/cestitka16.webp';
+import card17 from '../assets/cestitka17.webp';
+import card18 from '../assets/cestitka18.webp';
+import card19 from '../assets/cestitka19.webp';
+import card20 from '../assets/cestitka20.webp';
+import card21 from '../assets/cestitka21.webp';
+import card22 from '../assets/cestitka22.webp';
+import card23 from '../assets/cestitka23.webp';
+import card24 from '../assets/cestitka24.webp';
 
 const commonCharacteristics = [
     "230g рапава хартија",
@@ -40,4 +48,31 @@ const cards = [
     { id: 45, title: "Nice Bum", subtitle: "Честитка", characteristics: commonCharacteristics, cardImage: card9, price: "80 ден", sale: true, discountedPrice: "50 ден" },
 ];
 
-export default cards;
+// Празнични честитки – ја следат цената/попустот на останатите честитки.
+const holidayCards = [
+    { id: 46, title: "Зимска бајка", cardImage: card17 },
+    { id: 47, title: "Кога бевме деца", cardImage: card18 },
+    { id: 48, title: "Rocking around the Christmas tree", cardImage: card19 },
+    { id: 49, title: "Празнично утро", cardImage: card20 },
+    { id: 50, title: "Хо хо хо", cardImage: card21 },
+    { id: 51, title: "Среќни празници", cardImage: card22 },
+    { id: 52, title: "Ретро", cardImage: card23 },
+    { id: 53, title: "Долгоочекувани празници", cardImage: card24 },
+].map((c) => ({
+    subtitle: "Честитка",
+    characteristics: commonCharacteristics,
+    price: cards[0].price,
+    sale: cards[0].sale,
+    discountedPrice: cards[0].discountedPrice,
+    ...c,
+}));
+
+// Измешан редослед: новите одат после секоја втора постоечка.
+// „Зимска бајка" е последна во листата = прва на страницата (Cards.jsx ја превртува),
+// а „Nice Bum" го зема нејзиното место.
+const mixed = cards.flatMap((c, i) =>
+    i % 2 === 1 && holidayCards[(i + 1) / 2] ? [c, holidayCards[(i + 1) / 2]] : [c]
+);
+const allCards = [mixed[mixed.length - 1], ...mixed.slice(0, -1), holidayCards[0]];
+
+export default allCards;
