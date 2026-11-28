@@ -193,8 +193,7 @@ const gifts = [
             ],
         price: "2250 ден",
         sale: true,
-        discountedPrice: "2025 ден",
-        soldOut: true
+        discountedPrice: "2025 ден"
     },
 
     {
