@@ -76,6 +76,8 @@ const en = {
   },
 
   product: {
+    soldOut: "Sold out",
+    soldOutText: "Currently out of stock.",
     addToCart: "Add to cart",
     addToCartAria: "Add {{title}} to cart",
     notFound: "Product not found.",

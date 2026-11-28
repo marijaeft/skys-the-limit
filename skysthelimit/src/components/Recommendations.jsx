@@ -21,7 +21,7 @@ function shuffle(list) {
 export default function Recommendations({ excludeId, count = 4 }) {
   const { t } = useLang();
   const picks = useMemo(() => {
-    const main = shuffle(planners.filter((p) => p.id !== excludeId));
+    const main = shuffle(planners.filter((p) => p.id !== excludeId && !p.soldOut));
     const card = shuffle(cards.filter((c) => c.id !== excludeId))[0];
     const chosen = main.slice(0, card ? count - 1 : count);
     if (card) chosen.splice(Math.floor(Math.random() * (chosen.length + 1)), 0, { ...card, isCard: true });

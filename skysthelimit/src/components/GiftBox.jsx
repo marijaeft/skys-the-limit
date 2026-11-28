@@ -25,7 +25,7 @@ export default function GiftBox() {
     return () => window.removeEventListener("cartUpdated", sync);
   }, []);
 
-  const list = useMemo(() => sortForDisplay(planners), []);
+  const list = useMemo(() => sortForDisplay(planners.filter((p) => !p.soldOut)), []);
   const items = [...planners, ...gifts, ...cards]
     .filter((p) => picked[p.id])
     .map((p) => ({ ...p, quantity: picked[p.id] }));

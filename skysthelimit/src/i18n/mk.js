@@ -76,6 +76,8 @@ const mk = {
   },
 
   product: {
+    soldOut: "Распродадено",
+    soldOutText: "Моментално го нема на залиха.",
     addToCart: "Во кошничка",
     addToCartAria: "Додади {{title}} во кошничка",
     notFound: "Производот не е пронајден.",

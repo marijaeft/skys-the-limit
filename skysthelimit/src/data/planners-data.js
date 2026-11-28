@@ -304,7 +304,8 @@ const planners = [
             ],
         price: "750 ден",
         sale: true,
-        discountedPrice: "690 ден"
+        discountedPrice: "690 ден",
+        soldOut: true
     },
 
     {

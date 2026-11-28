@@ -23,7 +23,8 @@ export default function ProductCard({ product: rawProduct, to, image, imageBg, b
   const product = loc(rawProduct);
   const href = to || `/product/${product.id}`;
   const percent = discountPercent(product);
-  const onSale = percent > 0;
+  const soldOut = !!product.soldOut;
+  const onSale = percent > 0 && !soldOut;
 
   const handleAdd = (e) => {
     e.stopPropagation();
@@ -45,13 +46,18 @@ export default function ProductCard({ product: rawProduct, to, image, imageBg, b
           src={image || product.bannerImg || product.cardImage || product.images?.[0]}
           alt={product.title}
           loading="lazy"
-          className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${imageBg ? "drop-shadow-[0_14px_18px_rgba(60,45,30,0.28)]" : ""}`}
+          className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${imageBg ? "drop-shadow-[0_14px_18px_rgba(60,45,30,0.28)]" : ""} ${soldOut ? "grayscale-[60%] opacity-70" : ""}`}
         />
 
         <div className="absolute top-3 left-3 flex flex-col gap-1.5 items-start">
           {badge && (
             <span className="rounded-full text-[11px] font-bold uppercase tracking-widest px-3 py-1 bg-gradient-to-r from-amber-200 via-amber-300 to-amber-400 text-navy-950 shadow-sm shadow-amber-900/20 ring-1 ring-amber-100/60">
               {badge}
+            </span>
+          )}
+          {soldOut && (
+            <span className="rounded-full bg-stone-900 text-white text-xs font-bold uppercase tracking-wider px-3 py-1">
+              {t("product.soldOut")}
             </span>
           )}
           {onSale && (
@@ -61,6 +67,7 @@ export default function ProductCard({ product: rawProduct, to, image, imageBg, b
           )}
         </div>
 
+        {!soldOut && (
         <button
           type="button"
           onClick={handleAdd}
@@ -70,6 +77,7 @@ export default function ProductCard({ product: rawProduct, to, image, imageBg, b
           <FiShoppingBag size={16} />
           <span className={compact ? "hidden sm:inline" : ""}>{t("product.addToCart")}</span>
         </button>
+        )}
       </div>
 
       <div className="flex flex-col gap-1 px-5 py-4 text-left">
@@ -77,7 +85,11 @@ export default function ProductCard({ product: rawProduct, to, image, imageBg, b
           {product.title}
         </h3>
         <div className="flex items-baseline gap-2 mt-1">
-          {onSale ? (
+          {soldOut ? (
+            <span className={`text-lg font-bold ${dark ? "text-white/60" : "text-stone-500"}`}>
+              {t("product.soldOut")}
+            </span>
+          ) : onSale ? (
             <>
               <span className={`text-lg font-bold ${dark ? "text-amber-300" : "text-rose-600"}`}>
                 {money(toNumber(product.discountedPrice))}

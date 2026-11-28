@@ -170,6 +170,19 @@ export default function PlannerDetails() {
             </p>
           )}
 
+          {planner.soldOut ? (
+            <div className="mt-8">
+              <button
+                type="button"
+                disabled
+                className="w-full sm:w-auto min-w-[220px] h-12 px-8 rounded-full bg-stone-300 text-stone-700 font-semibold cursor-not-allowed"
+              >
+                {t("product.soldOut")}
+              </button>
+              <p className="mt-3 text-sm text-stone-500">{t("product.soldOutText")}</p>
+            </div>
+          ) : (
+          <>
           <div className="flex flex-wrap items-center gap-4 mt-8">
             <div className="flex items-center rounded-full ring-1 ring-stone-300 bg-white">
               <button
@@ -227,6 +240,8 @@ export default function PlannerDetails() {
                 {t("product.inCartNote", { count: inCart })}
               </Link>
             </p>
+          )}
+          </>
           )}
 
           <div className="flex items-center gap-3 mt-5 text-sm text-stone-600">
