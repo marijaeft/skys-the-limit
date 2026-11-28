@@ -1,6 +1,6 @@
 // Order in which planners are shown in the shop, sale and combo lists.
 // Listed ids come first (in this order), the rest follow newest first, and LAST ids go at the end.
-const FIRST = [11, 12, 13, 2, 3, 4];
+const FIRST = [11, 12, 13, 2, 3, 4, 14, 1];
 const LAST = [10];
 
 export function sortForDisplay(list) {
